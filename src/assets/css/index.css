@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+    padding: 0;
+  }
+  
+  html,body,#app{
+    height: 100%;
+    /* max-width: 750px; */
+    margin: 0 auto;
+    color: white;
+    /* font-family: "黑体"; */
+  }
+  
+  body{
+    font-size: 20px;
+  }
+  html{
+    /* font-size: 13.333333333vw; */
+    background-color: black;
+  }
+  :root:root {
+    --van-cell-background:rgba(255, 255, 255, 0) !important;
+}
+.van-nav-bar__title{
+  font-size: 14px;
+  letter-spacing: 10px ;
+
+}
