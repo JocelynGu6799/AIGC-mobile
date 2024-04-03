@@ -68,8 +68,12 @@ const loginInfo=ref<ILoginInfo>({
     width: 263px;
     height: 312px;
     border-radius: 24px;
-    margin: 0 auto;
-    margin-top: 168px;
+    // margin: 0 auto;
+    // margin-top: 168px;
+    position: absolute;
+    top: 168px;
+    left: 50%;
+    margin-left: -131.5px;
     p{
         text-align: center;
         color: white;

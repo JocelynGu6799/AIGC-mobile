@@ -3,6 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import type { ConfigProviderThemeVars } from "vant";
 import {reactive} from 'vue'
+import CommonFooter from '@/components/CommonFooter/index.vue'
 let themeVars=reactive<ConfigProviderThemeVars>({
     // fieldPlaceholderTextColor:"white"
    navBarTitleTextColor:"white",

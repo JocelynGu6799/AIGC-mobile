@@ -1,32 +1,21 @@
 # AIGC-mobile
 
-This template should help get you started developing with Vue 3 in Vite.
+### 建议
+- UI组件尽量用vant库里面的,和后端对应负责的同学对接交互功能
+- 写样式的时候多切换几个手机型号试试 尽量做到适配每一种型号
+- 组件和vant已经设置自动导入了不用手动import
+- 三块内容尽量各用一个页面完成,不要跳转路由了，存储好到时候后端需要数据（可以用pinia
+- 根据nowstep来判断现在执行第几步 用v-if/v-show控制对应元素的显示与否
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
+### 运行项目
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### 打包项目
 
 ```sh
 npm run build
