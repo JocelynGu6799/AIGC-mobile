@@ -15,8 +15,3 @@
 npm run dev
 ```
 
-### 打包项目
-
-```sh
-npm run build
-```
