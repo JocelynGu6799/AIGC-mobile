@@ -8,7 +8,12 @@ let themeVars=reactive<ConfigProviderThemeVars>({
     // fieldPlaceholderTextColor:"white"
    navBarTitleTextColor:"white",
    navBarBackground:"rgb(0,0,0,0)",
-   navBarTitleFontSize:"14px"
+   navBarTitleFontSize:"14px",
+   uploaderUploadBackground:"rgb(0,0,0,0)",
+   uploaderFileBackground:"rgb(0,0,0,0)",
+   uploaderMaskBackground:"rgb(0,0,0,0)",
+   
+   
    
    
 

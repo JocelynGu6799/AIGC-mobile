@@ -4,6 +4,7 @@ import Select from '@/views/Select.vue'
 import NotFound from '@/views/NotFound.vue'
 import Logo from '@/views/Logo/index.vue'
 import Pack from '@/views/Pack/index.vue'
+import PackView from '@/views/Pack/imgView.vue'
 import Poster from '@/views/Poster/index.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
@@ -31,16 +32,31 @@ const router = createRouter({
       name: 'logo',
       component: Logo
     },
+    // {
+    //   path: '/logo/view',
+    //   name: 'logoview',
+    //   component: Pack
+    // },
     {
       path: '/pack',
       name: 'pack',
       component: Pack
     },
     {
+      path: '/pack/view',
+      name: 'packview',
+      component: PackView
+    },
+    {
       path: '/poster',
       name: 'poster',
       component: Poster
     },
+    // {
+    //   path: '/poster/view',
+    //   name: 'posterview',
+    //   component: Pack
+    // },
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
     // {
     //   path: '/about',
