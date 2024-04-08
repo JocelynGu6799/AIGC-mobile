@@ -35,7 +35,7 @@ const handleCreate=()=>{
 <style lang="scss" scoped>
 
 </style>
-=======
+
   <div>
     <CommonHeader
       :ifhome="true"
