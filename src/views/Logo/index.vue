@@ -224,7 +224,7 @@ const handleInput = (event) => {
 // 点击生成与后端交互
 const handleCreate = () => {
   console.log("执行生成逻辑");
-  router.push({name:'packview'})
+  router.push({name:'logoview'})
 };
 </script>
 
