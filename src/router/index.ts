@@ -7,6 +7,8 @@ import Pack from '@/views/Pack/index.vue'
 
 import PackView from '@/views/Pack/imgView.vue'
 
+import LogoView from '@/views/Logo/result.vue'
+
 import Poster from '@/views/Poster/index.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
@@ -34,6 +36,12 @@ const router = createRouter({
       name: 'logo',
       component: Logo
     },
+    {
+      path: '/logo/view',
+      name: 'result',
+      component: LogoView
+    },
+    
 
     // {
     //   path: '/logo/view',

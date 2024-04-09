@@ -6,11 +6,8 @@
       mytitle="AILOGO设计"
     ></CommonHeader>
       <div class="content-container">
-        <div class="box" style="align-items: center">
-          <p style="margin: 5px 0 15px 0; font-size: 14px">效果图</p>
-        </div>
+        
         <div class="img-display-container">
-          <div class="img-box"></div>
           <div class="img-box"></div>
         </div>
         <div class="down-space">
@@ -230,7 +227,7 @@
 }
 .img-box {
   width: 100%;
-  height: 150px;
+  height: 400px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
 }
