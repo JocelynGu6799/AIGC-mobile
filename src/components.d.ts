@@ -10,6 +10,7 @@ declare module 'vue' {
     App: typeof import('./App.vue')['default']
     CommonFooter: typeof import('./components/CommonFooter/index.vue')['default']
     CommonHeader: typeof import('./components/CommonHeader/index.vue')['default']
+    ImgView: typeof import('./views/Pack/imgView.vue')['default']
     Index: typeof import('./views/Index.vue')['default']
     Login: typeof import('./views/Login.vue')['default']
     Logo: typeof import('./views/Logo/index.vue')['default']

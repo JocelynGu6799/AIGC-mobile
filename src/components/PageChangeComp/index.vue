@@ -57,7 +57,9 @@ const handleCreate = () => {
 .resetbtn {
     background-color: #E3E3E3;
     left: 32px;
-    bottom: 125px;
+
+    bottom: 85px;
+
 
 }
 
@@ -66,7 +68,8 @@ const handleCreate = () => {
     background-color: #92B0FF;
     color: white;
     right: 32px;
-    bottom: 125px;
+    bottom: 85px;
+
 
 
 }

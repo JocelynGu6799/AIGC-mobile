@@ -22,6 +22,11 @@
     "@tsconfig/node20": "^20.1.2",
     "@types/node": "^20.11.28",
     "@vitejs/plugin-vue": "^5.0.4",
+<<<<<<< HEAD
+=======
+    "@vue/cli-plugin-typescript": "^5.0.8",
+    "@vue/compiler-sfc": "^3.4.21",
+>>>>>>> wzr
     "@vue/tsconfig": "^0.5.1",
     "npm-run-all2": "^6.1.2",
     "sass": "^1.72.0",

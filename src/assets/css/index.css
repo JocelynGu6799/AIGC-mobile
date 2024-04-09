@@ -25,4 +25,15 @@
   font-size: 14px;
   letter-spacing: 10px ;
 
+
+
+}
+.van-uploader__preview{
+  /* width: 311px; */
+}
+.van-uploader__upload{
+  border: 1px solid white;
+   border-radius: 10px !important;
+   overflow: hidden;
+
 }
