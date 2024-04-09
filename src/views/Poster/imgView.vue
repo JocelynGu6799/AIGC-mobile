@@ -3,7 +3,7 @@
       <CommonHeader
     :ifhome="true"
     :ifback="true"
-    mytitle="AI包装设计"
+    mytitle="AI海报设计"
   ></CommonHeader>
     <div class="content-container">
       <div class="box" style="align-items: center">

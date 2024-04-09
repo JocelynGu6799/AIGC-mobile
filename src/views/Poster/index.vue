@@ -55,11 +55,11 @@
   <div v-if="nowStep === 3">
       <div class="box-03" style="border: 0px">
           <p>品牌信息（LOGO）</p>
-          <van-uploader class="van-uploader" v-model="fileListbrand" :after-read="afterRead" reupload max-count="1" :preview-size="[311, 82]" upload-text="支持PNG/JPG模式,最大不超过2M"/>
+          <van-uploader class="van-uploader" v-model="fileListbrandlogo" :after-read="afterRead1" reupload max-count="1" :preview-size="[311, 82]" upload-text="支持PNG/JPG模式,最大不超过2M"/>
       </div>
       <div class="box-03" style="border: 0px">
           <p>品牌信息（二维码）</p>
-          <van-uploader class="van-uploader" v-model="fileListbrand" :after-read="afterRead" reupload max-count="1" :preview-size="[311, 82]" upload-text="支持PNG/JPG模式,最大不超过2M"/>
+          <van-uploader class="van-uploader" v-model="fileListbrandcode" :after-read="afterRead2" reupload max-count="1" :preview-size="[311, 82]" upload-text="支持PNG/JPG模式,最大不超过2M"/>
       </div>
       <div class="box-03">
         <p>海报类型</p>
@@ -163,7 +163,12 @@ const handleStep = (mystep) => {
 console.log("mystep", mystep);
 nowStep.value += mystep;
 };
-const fileListbrand = ref([
+const fileListbrandlogo = ref([
+// Uploader 根据文件后缀来判断是否为图片文件
+// 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+//   { url: 'https://cloud-image' },
+]);
+const fileListbrandcode = ref([
 // Uploader 根据文件后缀来判断是否为图片文件
 // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
 //   { url: 'https://cloud-image' },
@@ -174,10 +179,17 @@ const fileListbody = ref([
 //   { url: 'https://cloud-image' },
 ]);
 //品牌图片上传成功后
-const afterRead = (file) => {
+const afterRead1 = (file) => {
 // 此时可以自行将文件上传至服务器
 brandImg=file.objectUrl
-console.log("品牌信息file", brandImg);
+console.log("品牌信息logo", brandImg);
+
+
+};
+const afterRead2 = (file) => {
+// 此时可以自行将文件上传至服务器
+brandImg=file.objectUrl
+console.log("品牌信息二维码", brandImg);
 
 
 };
