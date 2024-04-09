@@ -18,7 +18,6 @@ declare module 'vue' {
     Pack: typeof import('./views/Pack/index.vue')['default']
     PageChangeComp: typeof import('./components/PageChangeComp/index.vue')['default']
     Poster: typeof import('./views/Poster/index.vue')['default']
-    Result: typeof import('./views/Logo/result.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./views/Select.vue')['default']
