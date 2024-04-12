@@ -43,8 +43,8 @@
             v-for="item in gridItems1"
             :key="item.name"
             class="grid-item"
-            @click="handleClick(item.name, 3)"
-            :class="{ selected: selectedName3 === item.name }"
+            @click="handleClick(item.name, 1)"
+            :class="{ selected: selectedName1 === item.name }"
           >
             {{ item.name }}
           </div>
@@ -54,11 +54,11 @@
         <p>请选择风格设置</p>
         <div class="item-container02">
           <div
-            v-for="item in gridItems3"
+            v-for="item in gridItems2"
             :key="item.name"
             class="grid-item"
-            @click="handleClick(item.name, 3)"
-            :class="{ selected: selectedName3 === item.name }"
+            @click="handleClick(item.name, 2)"
+            :class="{ selected: selectedName2 === item.name }"
           >
             {{ item.name }}
           </div>
@@ -73,17 +73,17 @@
       </div>
       <div class="box-03" style="border: 0px">
           <p>添加主体图</p>
-          <van-uploader class="van-uploader" v-model="fileListbrand" :after-read="afterRead" reupload max-count="1" :preview-size="[311, 82]" upload-text="支持PNG/JPG模式,最大不超过2M"/>
+          <van-uploader class="van-uploader" v-model="fileListbody" :after-read="afterRead" reupload max-count="1" :preview-size="[311, 82]" upload-text="支持PNG/JPG模式,最大不超过2M"/>
       </div>
       <div class="box-04">
         <p>海报类型</p>
         <div class="item-container03">
           <div
-            v-for="item in gridItems2"
+            v-for="item in gridItems3"
             :key="item.name"
             class="grid-item"
-            @click="handleClick(item.name, 2)"
-            :class="{ selected: selectedName2 === item.name }"
+            @click="handleClick(item.name, 3)"
+            :class="{ selected: selectedName3 === item.name }"
           >
             {{ item.name }}
           </div>
@@ -104,12 +104,10 @@ let nowStep = ref(1);
 const brandName = ref("");
 const productType = ref("");
 const productCopy = ref("");
-//品牌信息图片url
+//品牌信息(logo)图片url
 let brandImg = ref("");
 //添加主体图片url
-
 let bodyImg = ref("");
-
 const handleStep = (mystep) => {
 // mystep的值为-1或1,对应改变nowStep的值
 console.log("mystep", mystep);
@@ -125,24 +123,21 @@ const fileListbody = ref([
 // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
 //   { url: 'https://cloud-image' },
 ]);
+
 //品牌图片上传成功后
 const afterRead = (file) => {
 // 此时可以自行将文件上传至服务器
 brandImg=file.objectUrl
-console.log("品牌信息file", brandImg);
-
-
+console.log("品牌信息(logo)file", brandImg);
 };
-//主体图片上传成功后
 
+//主体图片上传成功后
 const afterReadbody = (file) => {
 // 此时可以自行将文件上传至服务器
 bodyImg=file.objectUrl
 console.log("主体图信息file", bodyImg);
-
-
 };
-// -------------------------
+
 // 创建网格数据
 const gridItems1 = ref([
 { name: "影视" },
@@ -156,15 +151,15 @@ const selectedName1 = ref(null);
 
 // 创建第二个网格数据
 const gridItems2 = ref([
-{ name: "9:16" },
-{ name: "1:1" },
+{ name: "山水自然" },
+{ name: "晶石国风" },
+{ name: "纸雕风格" },
 ]);
 const selectedName2 = ref(null);
 
 const gridItems3 = ref([
-{ name: "山水自然" },
-{ name: "晶石国风" },
-{ name: "纸雕风格" },
+{ name: "9:16" },
+{ name: "1:1" },
 ]);
 const selectedName3 = ref(null);
 
@@ -179,14 +174,8 @@ if (gridNumber === 1) {
 } else if (gridNumber === 3) {
   // 更新选中名称（第三个网格）
   selectedName3.value = name;
-} else if (gridNumber === 4) {
-  // 更新选中名称（第四个网格）
-  selectedName4.value = name;
-} else if (gridNumber === 5) {
-  // 更新选中名称（第五个网格）
-  selectedName5.value = name;
-}
 };
+}
 // -----------------------------
 
 // 处理输入事件
@@ -198,7 +187,6 @@ productCopy.value = event.target.value.slice(0, 35);
 const handleCreate = () => {
 console.log("执行生成逻辑");
 router.push({name:'posterview'})
-
 };
 </script>
 
