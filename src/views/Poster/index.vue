@@ -21,13 +21,13 @@
               </div>
               <div class="box">
               <p>&nbsp海报副标题</p>
-              <input v-model="productType" type="text" class="custom-input" placeholder="请输入海报副标题"/>
+              <input v-model="brandName2" type="text" class="custom-input" placeholder="请输入海报副标题"/>
               </div>
               <div class="box-1">
               <p>&nbsp海报内容</p>
                   <div class="textarea-container">
-                  <textarea v-model="productCopy" @input="handleInput" class="custom-input-plus" placeholder="请输入文案内容"></textarea>
-                  <span class="char-counter">{{ productCopy.length }}/35</span>
+                  <textarea v-model="postercontent" @input="handleInput" class="custom-input-plus" placeholder="请输入文案内容"></textarea>
+                  <span class="char-counter">{{ postercontent.length }}/35</span>
                   </div>
               </div>
           </div>
@@ -102,8 +102,8 @@ const router=useRouter()
 let nowStep = ref(1);
 // 使用 ref 创建一个响应式变量 inputValue
 const brandName = ref("");
-const productType = ref("");
-const productCopy = ref("");
+const brandName2 = ref("");
+const postercontent = ref("");
 //品牌信息图片url
 let brandImg = ref("");
 //添加主体图片url
@@ -194,7 +194,7 @@ console.log(selectedName1,selectedName2,selectedName3);
 // 处理输入事件
 const handleInput = (event) => {
 // 截取前35个字符
-productCopy.value = event.target.value.slice(0, 35);
+postercontent.value = event.target.value.slice(0, 35);
 };
 // 点击生成与后端交互
 const handleCreate = () => {

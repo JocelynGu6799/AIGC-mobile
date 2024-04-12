@@ -56,8 +56,8 @@
               v-for="item in gridItems1"
               :key="item.name"
               class="grid-item"
-              @click="handleClick(item.name, 3)"
-              :class="{ selected: selectedName3 === item.name }"
+              @click="handleClick(item.name, 1)"
+              :class="{ selected: selectedName1 === item.name }"
             >
               {{ item.name }}
             </div>
@@ -65,7 +65,7 @@
           </div>
           <div class="box-01" style="border: 0px;">
             <input
-              v-model="brandName"
+              v-model="myshape"
               type="text"
               class="custom-input"
               placeholder="自定义输入形状"
@@ -85,8 +85,8 @@
               v-for="item in gridItems2"
               :key="item.name"
               class="grid-item"
-              @click="handleClick(item.name, 3)"
-              :class="{ selected: selectedName3 === item.name }"
+              @click="handleClick(item.name, 2)"
+              :class="{ selected: selectedName2 === item.name }"
             >
               {{ item.name }}
             </div>
@@ -94,7 +94,7 @@
         </div>
         <div class="box-03" style="border: 0px;">
             <input
-              v-model="brandName"
+              v-model="mystyle"
               type="text"
               class="custom-input"
               placeholder="自定义输入风格"
@@ -120,7 +120,7 @@
         </div>
         <div class="box-03" style="border: 0px;">
             <input
-              v-model="brandName"
+              v-model="mycolor"
               type="text"
               class="custom-input"
               placeholder="自定义输入颜色"
@@ -138,8 +138,8 @@
               v-for="item in gridItems4"
               :key="item.name"
               class="grid-item"
-              @click="handleClick(item.name, 3)"
-              :class="{ selected: selectedName3 === item.name }"
+              @click="handleClick(item.name, 4)"
+              :class="{ selected: selectedName4 === item.name }"
             >
               {{ item.name }}
             </div>
@@ -147,7 +147,7 @@
         </div>
         <div class="box-03" style="border: 0px;">
             <input
-              v-model="brandName"
+              v-model="mybody"
               type="text"
               class="custom-input"
               placeholder="自定义输入主体"
@@ -173,6 +173,9 @@ const router=useRouter()
 let nowStep = ref(1);
 // 使用 ref 创建一个响应式变量 inputValue
 const brandName = ref("");
+const mybody = ref("");
+const myshape = ref("");
+const mycolor = ref("");
 const productType = ref("");
 const productCopy = ref("");
 //品牌信息图片url
@@ -283,6 +286,9 @@ const handleClick = (name, gridNumber) => {
   } else if (gridNumber === 3) {
     // 更新选中名称（第三个网格）
     selectedName3.value = name;
+  }else if (gridNumber === 4) {
+    // 更新选中名称（第三个网格）
+    selectedName4.value = name;
   }
 };
 // -----------------------------
