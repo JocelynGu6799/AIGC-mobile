@@ -43,8 +43,22 @@
             v-for="item in gridItems1"
             :key="item.name"
             class="grid-item"
-            @click="handleClick(item.name, 3)"
-            :class="{ selected: selectedName3 === item.name }"
+            @click="handleClick(item.name, 1)"
+            :class="{ selected: selectedName1 === item.name }"
+          >
+            {{ item.name }}
+          </div>
+        </div>
+      </div>
+      <div class="box-02">
+        <p>请选择风格设置</p>
+        <div class="item-container02">
+          <div
+            v-for="item in gridItems3"
+            :key="item.name"
+            class="grid-item"
+            @click="handleClick(item.name, 2)"
+            :class="{ selected: selectedName2 === item.name }"
           >
             {{ item.name }}
           </div>
@@ -55,34 +69,17 @@
   <div v-if="nowStep === 3">
       <div class="box-03" style="border: 0px">
           <p>品牌信息（LOGO）</p>
-          <van-uploader class="van-uploader" v-model="fileListbrandlogo" :after-read="afterRead1" reupload max-count="1" :preview-size="[311, 82]" upload-text="支持PNG/JPG模式,最大不超过2M"/>
+          <van-uploader class="van-uploader" v-model="fileListbrand" :after-read="afterRead" reupload max-count="1" :preview-size="[311,100]" upload-text="支持PNG/JPG模式,最大不超过2M"/>
       </div>
       <div class="box-03" style="border: 0px">
-          <p>品牌信息（二维码）</p>
-          <van-uploader class="van-uploader" v-model="fileListbrandcode" :after-read="afterRead2" reupload max-count="1" :preview-size="[311, 82]" upload-text="支持PNG/JPG模式,最大不超过2M"/>
+          <p>添加主体图</p>
+          <van-uploader class="van-uploader" v-model="fileListbody" :after-read="afterRead" reupload max-count="1" :preview-size="[311, 100]" upload-text="支持PNG/JPG模式,最大不超过2M"/>
       </div>
-      <div class="box-03">
+      <div class="box-04">
         <p>海报类型</p>
         <div class="item-container03">
           <div
             v-for="item in gridItems2"
-            :key="item.name"
-            class="grid-item"
-            @click="handleClick(item.name, 2)"
-            :class="{ selected: selectedName2 === item.name }"
-          >
-            {{ item.name }}
-          </div>
-        </div>
-      </div>
-  </div>
-  <div v-if="nowStep === 4">
-      <div class="content-container">
-      <div class="box-04">
-        <p>风格设置</p>
-        <div class="item-container04">
-          <div
-            v-for="item in gridItems3"
             :key="item.name"
             class="grid-item"
             @click="handleClick(item.name, 3)"
@@ -94,52 +91,7 @@
       </div>
   </div>
   </div>
-  <div v-if="nowStep === 5">
-      <div class="content-container05">
-      <div class="box-05">
-        <p>选择喜欢的配色方案</p>
-        <div class="item-container05">
-          <div
-            v-for="item in gridItems4"
-            :key="item.name"
-            class="grid-item05"
-            @click="handleClick(item.name, 4)"
-            :class="{ selected: selectedName4 === item.name }"
-          >
-            {{ item.name }}
-          </div>
-        </div>
-      </div>
-      <div class="box-05">
-        <p>海报用途</p>
-        <div class="item-container06">
-          <div
-            v-for="item in gridItems5"
-            :key="item.name"
-            class="grid-item06"
-            @click="handleClick(item.name, 5)"
-            :class="{ selected: selectedName5 === item.name }"
-          >
-            {{ item.name }}
-          </div>
-        </div>
-      </div>
-      <div class="box-05">
-        <p>添加主体图</p>
-        <van-uploader
-            v-model="fileListbody"
-            :after-read="afterReadbody"
-            reupload
-            max-count="1"
-            :preview-size="[292, 100]"
-            upload-text="支持PNG/JPG模式,最大不超过2M"
-            
-          />
-      </div>
-    </div>
-  </div>
-  </div>
-      <PageChangeComp :nowStep="nowStep" :total-steps="5" @change-step="handleStep" @start-create="handleCreate"></PageChangeComp>
+      <PageChangeComp :nowStep="nowStep" :total-steps="3" @change-step="handleStep" @start-create="handleCreate"></PageChangeComp>
   
 </template>
 
@@ -163,12 +115,7 @@ const handleStep = (mystep) => {
 console.log("mystep", mystep);
 nowStep.value += mystep;
 };
-const fileListbrandlogo = ref([
-// Uploader 根据文件后缀来判断是否为图片文件
-// 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
-//   { url: 'https://cloud-image' },
-]);
-const fileListbrandcode = ref([
+const fileListbrand = ref([
 // Uploader 根据文件后缀来判断是否为图片文件
 // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
 //   { url: 'https://cloud-image' },
@@ -179,17 +126,10 @@ const fileListbody = ref([
 //   { url: 'https://cloud-image' },
 ]);
 //品牌图片上传成功后
-const afterRead1 = (file) => {
+const afterRead = (file) => {
 // 此时可以自行将文件上传至服务器
 brandImg=file.objectUrl
-console.log("品牌信息logo", brandImg);
-
-
-};
-const afterRead2 = (file) => {
-// 此时可以自行将文件上传至服务器
-brandImg=file.objectUrl
-console.log("品牌信息二维码", brandImg);
+console.log("品牌信息file", brandImg);
 
 
 };
@@ -211,65 +151,22 @@ const gridItems1 = ref([
 { name: "金融/财务" },
 { name: "餐饮/食品" },
 { name: "丽人/美发" },
-{ name: "影视" },
-{ name: "影视" },
-{ name: "影视" },
-{ name: "影视" },
-{ name: "影视" },
-{ name: "影视" },
-{ name: "影视" },
-{ name: "影视" },
-{ name: "影视" },
-{ name: "影视" },
-{ name: "影视" },
 ]);
 const selectedName1 = ref(null);
 
 // 创建第二个网格数据
 const gridItems2 = ref([
 { name: "9:16" },
-{ name: "16:9" },
-{ name: "2.35:1" },
 { name: "1:1" },
 ]);
 const selectedName2 = ref(null);
 
 const gridItems3 = ref([
-{ name: "默认" },
-{ name: "日式" },
-{ name: "国潮" },
-{ name: "扁平" },
-{ name: "默认" },
-{ name: "日式" },
-{ name: "默认" },
-{ name: "日式" },
-{ name: "默认" },
-{ name: "日式" },
+{ name: "山水自然" },
+{ name: "晶石国风" },
+{ name: "纸雕风格" },
 ]);
 const selectedName3 = ref(null);
-
-const gridItems4 = ref([
-{ name: "推荐" },
-{ name: "推荐" },
-{ name: "推荐" },
-{ name: "推荐" },
-{ name: "推荐" },
-{ name: "推荐" },
-{ name: "推荐" },
-{ name: "推荐" },
-{ name: "推荐" },
-{ name: "推荐" },
-{ name: "推荐" },
-]);
-const selectedName4 = ref(null);
-
-const gridItems5 = ref([
-{ name: "节日祝福" },
-{ name: "活动宣传" },
-{ name: "商品促销" },
-{ name: "企业营销" },
-]);
-const selectedName5 = ref(null);
 
 // 点击事件处理程序
 const handleClick = (name, gridNumber) => {
@@ -282,13 +179,15 @@ if (gridNumber === 1) {
 } else if (gridNumber === 3) {
   // 更新选中名称（第三个网格）
   selectedName3.value = name;
-} else if (gridNumber === 4) {
-  // 更新选中名称（第四个网格）
-  selectedName4.value = name;
-} else if (gridNumber === 5) {
-  // 更新选中名称（第五个网格）
-  selectedName5.value = name;
 }
+// } else if (gridNumber === 4) {
+//   // 更新选中名称（第四个网格）
+//   selectedName4.value = name;
+// } else if (gridNumber === 5) {
+//   // 更新选中名称（第五个网格）
+//   selectedName5.value = name;
+// }
+console.log(selectedName1,selectedName2,selectedName3);
 };
 // -----------------------------
 
@@ -475,12 +374,25 @@ background-color: #92b0fd; /* 设置选中后的背景颜色 */
 
 // --------------------------第三个页面
 .box-03 {
-width: 78%;
-margin-top: 30px;
+width: 100%;
+margin-top:30px;
 margin-left: 15px;
-height: auto;
+height: 150px;
+position: relative;
 }
 .box-03 p {
+font-size: 17px;
+letter-spacing: 5px;
+}
+
+.box-04 {
+  width: 100%;
+    margin-top: 50px;
+    margin-left: 17px;
+    height: auto;
+    position: relative;
+}
+.box-04 p {
 font-size: 17px;
 letter-spacing: 5px;
 }
@@ -491,7 +403,7 @@ grid-template-columns: repeat(2, 2fr); /* 创建四列 */
 grid-row-gap: 25px; /* 设置行间距 */
 grid-column-gap: 10px; /* 设置列间距 */
 margin-top:20px;
-margin-left: -10px;
+// margin-left: -10px;
 }
 .item-container03 .grid-item {
 background-color: #cfcfcf55;
@@ -510,120 +422,21 @@ background-color: #92b0fd; /* 设置选中后的背景颜色 */
 }
 
 .van-uploader{
-  top:10px;
-  left: 10px;
+  left: 50%;
+  margin: 15px auto;
+    margin-left: -170px;
+    position: absolute
+}
+.item-container03{
+  display: grid;
+    grid-template-columns: repeat(2, 2fr);
+    grid-row-gap: 25px;
+    grid-column-gap: 10px;
+    margin-top: 20px;
+    /* width: 78%; */
+    position: absolute;
+    left: 50%;
+    margin-left: -190px;
 }
 
-// --------------------------第四个页面
-.box-04 {
-width: 78%;
-margin-top: 30px;
-margin-left: 15px;
-height: auto;
-}
-.box-04 p {
-font-size: 17px;
-letter-spacing: 5px;
-}
-
-.item-container04 {
-display: grid;
-grid-template-columns: repeat(2, 2fr); /* 创建四列 */
-grid-row-gap: 25px; /* 设置行间距 */
-grid-column-gap: 10px; /* 设置列间距 */
-margin-top:20px;
-margin-left: -10px;
-}
-.item-container04 .grid-item {
-background-color: #cfcfcf55;
-border: 1px solid #ccc;
-border-radius: 10px;
-margin-left: 0px;
-width: 125px;
-height: 35px;
-padding: 15px 5px;
-text-align: center;
-font-size: 17px;
-cursor: pointer;
-}
-.item-container04 .selected {
-background-color: #92b0fd; /* 设置选中后的背景颜色 */
-}
-
-// --------------------------第五个页面
-.box-05 {
-width: 78%;
-margin-left: 20px;
-margin-top: 20px;
-height: auto;
-
-}
-.box-05 p {
-font-size: 17px;
-letter-spacing: 5px;
-}
-.item-container05 {
-display: grid;
-grid-template-columns: repeat(4, 1fr); /* 创建四列 */
-grid-row-gap: 8px; /* 设置行间距 */
-grid-column-gap: 5px; /* 设置列间距 */
-margin-top: 18px;
-}
-.grid-item05 {
-border: 1px solid #ccc;
-border-radius: 10px;
-width: 60px;
-height: 30px;
-margin-left: 15px;
-text-align: center;
-font-size: 12px;
-font-weight: bold;
-cursor: pointer;
-}
-.selected {
-background-color: #92b0fd; /* 设置选中后的背景颜色 */
-}
-.img-up-container05 {
-position: relative;
-width: 100%;
-padding: 7% 0;
-margin: 5% 0;
-border: 1px solid white;
-border-radius: 10px;
-}
-.img-up-container05 a {
-display: flex;
-flex-direction: column;
-align-items: center;
-color: #666;
-text-decoration: none;
-}
-.img-up-container05 a:hover {
-color: rgb(211, 211, 211);
-}
-// -------------------------------------
-.item-container06 {
-display: grid;
-grid-template-columns: repeat(2, 2fr); /* 创建四列 */
-grid-row-gap: 25px; /* 设置行间距 */
-grid-column-gap: 10px; /* 设置列间距 */
-margin-top:20px;
-margin-left: 10px;
-}
-.grid-item06 {
-background-color: transparent;
-border: 1px solid #ccc;
-border-radius: 10px;
-margin-left: 4px;
-width: 135px;
-height: 8px;
-padding: 15px 5px;
-text-align: center;
-font-size: 13px;
-font-weight: bold;
-cursor: pointer;
-}
-.item-container06 .selected {
-background-color: #92b0fd; /* 设置选中后的背景颜色 */
-}
 </style>
