@@ -35,25 +35,41 @@
             />
           </div>
           <div class="box">
-            <p>*产品类型</p>
+            <p>*传入样图</p>
+            <van-uploader
+            v-model="fileListbrand"
+
+              :after-read="afterRead"
+              reupload
+              max-count="1"
+              :preview-size="[311, 90]"
+              upload-text="支持PNG/JPG模式,最大不超过2M"
+              
+            />
+            
+          </div>
+          
+          <div class="box" style="border: 0px;">
+            <p>&nbsp形状设置</p>
+            <div class="item-container">
+            <div
+              v-for="item in gridItems1"
+              :key="item.name"
+              class="grid-item"
+              @click="handleClick(item.name, 3)"
+              :class="{ selected: selectedName3 === item.name }"
+            >
+              {{ item.name }}
+            </div>
+           </div>
+          </div>
+          <div class="box-01" style="border: 0px;">
             <input
-              v-model="productType"
+              v-model="brandName"
               type="text"
               class="custom-input"
-              placeholder="请输入您的产品，例：红酒、盒子"
+              placeholder="自定义输入形状"
             />
-          </div>
-          <div class="box" style="border: 0px">
-            <p>&nbsp产品文案</p>
-            <div class="textarea-container">
-              <textarea
-                v-model="productCopy"
-                @input="handleInput"
-                class="custom-input-plus"
-                placeholder="请输入文案内容"
-              ></textarea>
-              <span class="char-counter">{{ productCopy.length }}/20</span>
-            </div>
           </div>
         </div>
       </div>
@@ -66,7 +82,7 @@
           <p>风格设置</p>
           <div class="item-container03">
             <div
-              v-for="item in gridItems3"
+              v-for="item in gridItems2"
               :key="item.name"
               class="grid-item"
               @click="handleClick(item.name, 3)"
@@ -76,12 +92,20 @@
             </div>
           </div>
         </div>
+        <div class="box-03" style="border: 0px;">
+            <input
+              v-model="brandName"
+              type="text"
+              class="custom-input"
+              placeholder="自定义输入风格"
+            />
+        </div>
       </div>
     </div>
     <div v-if="nowStep === 3">
       <div class="content-container">
         <div class="box-02">
-          <p>请选择您的行业</p>
+          <p>颜色设置</p>
           <div class="item-container03">
             <div
               v-for="item in gridItems3"
@@ -94,13 +118,48 @@
             </div>
           </div>
         </div>
+        <div class="box-03" style="border: 0px;">
+            <input
+              v-model="brandName"
+              type="text"
+              class="custom-input"
+              placeholder="自定义输入颜色"
+            />
+        </div>
+      </div>
+    </div>
+
+    <div v-if="nowStep === 4">
+      <div class="content-container">
+        <div class="box-02">
+            <p>画面主体</p>
+            <div class="item-container03">
+            <div
+              v-for="item in gridItems4"
+              :key="item.name"
+              class="grid-item"
+              @click="handleClick(item.name, 3)"
+              :class="{ selected: selectedName3 === item.name }"
+            >
+              {{ item.name }}
+            </div>
+          </div>
+        </div>
+        <div class="box-03" style="border: 0px;">
+            <input
+              v-model="brandName"
+              type="text"
+              class="custom-input"
+              placeholder="自定义输入主体"
+            />
+        </div>
       </div>
     </div>
     
     <!-- total-steps可以改成这个工作流程需要的步骤数量, -->
     <PageChangeComp
       :nowStep="nowStep"
-      :total-steps="3"
+      :total-steps="4"
       @change-step="handleStep"
       @start-create="handleCreate"
     ></PageChangeComp>
@@ -156,50 +215,62 @@ const afterReadbody = (file) => {
 // -------------------------
 // 创建网格数据
 const gridItems1 = ref([
-  { name: "Item 1" },
-  { name: "Item 2" },
-  { name: "Item 3" },
-  { name: "Item 4" },
-  { name: "Item 5" },
-  { name: "Item 6" },
-  { name: "Item 7" },
-  { name: "Item 8" },
-  { name: "Item 9" },
-  { name: "Item 10" },
-  { name: "Item 11" },
-  { name: "Item 12" },
+  { name: "圆形" },
+  { name: "方形" },
+  { name: "三角形" },
+  { name: "菱形" },
+  { name: "不规则形状" },
 ]);
 const selectedName1 = ref(null);
 
 // 创建第二个网格数据
 const gridItems2 = ref([
-  { name: "Item A" },
-  { name: "Item B" },
-  { name: "Item C" },
-  { name: "Item D" },
-  { name: "Item E" },
-  { name: "Item F" },
-  { name: "Item G" },
-  { name: "Item H" },
-  { name: "Item I" },
+  { name: "三维" },
+  { name: "简易" },
+  { name: "抽象" },
+  { name: "塔罗牌" },
+  { name: "水彩" },
+  { name: "复古风格" },
+  { name: "卡通" },
+  { name: "油画" },
+  { name: "新艺术运动" },
+  { name: "单色" },
+  { name: "剪影" },
+  { name: "强阴影" },
 ]);
 const selectedName2 = ref(null);
 
 const gridItems3 = ref([
-  { name: "Item 1" },
-  { name: "Item 2" },
-  { name: "Item 3" },
-  { name: "Item 4" },
-  { name: "Item 5" },
-  { name: "Item 6" },
-  { name: "Item 7" },
-  { name: "Item 8" },
-  { name: "Item 9" },
-  { name: "Item 10" },
-  { name: "Item 11" },
-  { name: "Item 12" },
+  { name: "红色" },
+  { name: "紫色" },
+  { name: "蓝色" },
+  { name: "橙色" },
+  { name: "黄色" },
+  { name: "银色" },
+  { name: "绿色" },
+  { name: "金色" },
+  { name: "白色" },
+  { name: "黑色" },
+  { name: "粉色" },
+  { name: "棕色" },
 ]);
 const selectedName3 = ref(null);
+
+const gridItems4 = ref([
+  { name: "猫" },
+  { name: "云" },
+  { name: "狗" },
+  { name: "剑" },
+  { name: "鸟" },
+  { name: "火箭" },
+  { name: "猴子" },
+  { name: "拳" },
+  { name: "树" },
+  { name: "太阳" },
+  { name: "花" },
+  { name: "月亮" },
+]);
+const selectedName4 = ref(null);
 
 // 点击事件处理程序
 const handleClick = (name, gridNumber) => {
@@ -293,6 +364,34 @@ const handleCreate = () => {
   font-size: 17px;
   letter-spacing: 5px;
 }
+.box-01 {
+  // position: absolute;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  width: 388px;
+  margin: 3% 3% 0 3%;
+  border-bottom: 1px solid white;
+}
+.box-01 p {
+  margin: 0 5%;
+  font-size: 17px;
+  letter-spacing: 5px;
+}
+.box-03 {
+  // position: absolute;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  width: 328px;
+  margin: 3% 3% 0 3%;
+  border-bottom: 1px solid white;
+}
+.box-03 p {
+  margin: 0 5%;
+  font-size: 17px;
+  letter-spacing: 5px;
+}
 .custom-input {
   outline: none;
   background-color: transparent;
@@ -308,7 +407,7 @@ const handleCreate = () => {
 .textarea-container {
   position: relative;
   // width: 80%;
-  height: 180px;
+  height: 120px;
   padding: 10px;
   margin: 3% 5% 5% 5%;
   border: 1px solid white;
@@ -366,7 +465,7 @@ const handleCreate = () => {
 }
 .item-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 创建四列 */
+  grid-template-columns: repeat(3, 1fr); /* 创建四列 */
   grid-row-gap: 8px; /* 设置行间距 */
   grid-column-gap: 15px; /* 设置列间距 */
   margin-top: 18px;
@@ -404,7 +503,7 @@ const handleCreate = () => {
 .item-container03 {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 创建四列 */
-  grid-row-gap: 20px; /* 设置行间距 */
+  grid-row-gap: 13px; /* 设置行间距 */
   grid-column-gap: 35px; /* 设置列间距 */
   margin-top: 18px;
 }
