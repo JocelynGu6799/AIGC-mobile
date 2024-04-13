@@ -37,3 +37,19 @@
    overflow: hidden;
 
 }
+@font-face {
+  font-family: '方正黑体简体';
+  src: url('@/assets/font/方正黑体简体.TTF') format('truetype');
+}
+@font-face {
+  font-family: '方正楷体简体';
+  src: url('@/assets/font/方正楷体简体.ttf') format('truetype');
+}
+@font-face {
+  font-family: '汉仪雅酷黑75W';
+  src: url('@/assets/font/汉仪雅酷黑75W.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'YouSheBiaoTiHei-2';
+  src: url('@/assets/font/YouSheBiaoTiHei-2.ttf') format('truetype');
+}

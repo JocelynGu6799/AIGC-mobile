@@ -32,7 +32,20 @@
               type="text"
               class="custom-input"
               placeholder="请输入品牌（公司）名称"
+              @input="handleInputChange"
+              :style="{ fontFamily: selectedFont }" 
             />
+            <!-- 添加字体选择 -->
+            <ul v-if="showDropdownList" class="dropdown-list">
+              <li
+                v-for="(font, index) in fontList"
+                :key="index"
+                @click="selectFont(font)"
+                class="dropdown-item"
+              >
+                {{ font }}
+              </li>
+            </ul>
           </div>
           <div class="box">
             <p>*产品类型</p>
@@ -65,12 +78,12 @@
                         </div>  -->
             <van-uploader
             v-model="fileListbrand"
-
+              :before-read="beforeRead"
               :after-read="afterRead"
               reupload
               max-count="1"
               :preview-size="[311, 82]"
-              upload-text="支持PNG/JPG模式,最大不超过2M"
+              upload-text="支持PNG/JPG模式,最大不超过10M"
               
             />
           </div>
@@ -99,11 +112,12 @@
             <div
               v-for="item in gridItems2"
               :key="item.name"
-              class="grid-item"
+              class="grid-item-img"
               @click="handleClick(item.name, 2)"
               :class="{ selected: selectedName2 === item.name }"
             >
-              {{ item.name }}
+              <img :src="item.image" alt="Item Image">
+
             </div>
           </div>
         </div>
@@ -111,11 +125,12 @@
           <p>添加主体图</p>
           <van-uploader
               v-model="fileListbody"
+              :before-read="beforeRead"
               :after-read="afterReadbody"
               reupload
               max-count="1"
               :preview-size="[292, 100]"
-              upload-text="支持PNG/JPG模式,最大不超过2M"
+              upload-text="支持PNG/JPG模式,最大不超过10M"
               
             />
         </div>
@@ -156,14 +171,11 @@ import { useRouter } from "vue-router";
 const router=useRouter()
 let nowStep = ref(1);
 // 使用 ref 创建一个响应式变量 inputValue
-const brandName = ref("");
-const productType = ref("");
-const productCopy = ref("");
-//品牌信息图片url
-let brandImg = ref("");
-//添加主体图片url
-
-let bodyImg = ref("");
+const brandName = ref(""); //-----------------------------------------品牌名称
+const productType = ref(""); //--------------------------------------------产品类型
+const productCopy = ref("");  //-------------------------------------------产品文案 
+let brandImg = ref("");//--------------------------------------------------品牌信息(LOGO)图片url
+let bodyImg = ref("");//----------------------------------------------------添加主体图片url
 
 const handleStep = (mystep) => {
   // mystep的值为-1或1,对应改变nowStep的值
@@ -180,6 +192,33 @@ const fileListbody = ref([
   // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
   //   { url: 'https://cloud-image' },
 ]);
+// ---------品牌名称输入后改变字体效果---------------
+const showDropdownList = ref(false);
+const fontList = ['方正黑体简体', '方正楷体简体', '汉仪雅酷黑75W', 'YouSheBiaoTiHei-2']; 
+const selectedFont = ref('Arial'); //-----------------------------------------------输入内容对应的字体font_file
+
+const handleInputChange = (event) => {
+  brandName.value = event.target.value;
+  showDropdownList.value = true;
+};
+
+const selectFont = (font) => {
+  selectedFont.value = font; // Update selected font
+  showDropdownList.value = false;
+};
+
+
+//-----------判断图片大小------------------------
+import { showToast } from 'vant';
+const  beforeRead = (file) => {
+    const maxSize = 10 * 1024 * 1024; // 10MB，根据需求设置最大尺寸
+    if (file.size > maxSize) {
+      showToast('文件大小超过限制，请选择大小在10MB以内的文件');
+      return false; // 返回 false 表示不读取该文件
+    }
+    return true; // 返回 true 表示继续读取文件
+}
+
 //品牌图片上传成功后
 const afterRead = (file) => {
   // 此时可以自行将文件上传至服务器
@@ -198,36 +237,32 @@ const afterReadbody = (file) => {
 
 };
 // -------------------------
-// 创建网格数据
+// 创建配色方案
 const gridItems1 = ref([
-  { name: "Item 1" },
-  { name: "Item 2" },
-  { name: "Item 3" },
+  { name: "蓝色" },
+  { name: "红色" },
+  { name: "金色" },
   { name: "Item 4" },
   { name: "Item 5" },
   { name: "Item 6" },
   { name: "Item 7" },
   { name: "Item 8" },
   { name: "Item 9" },
-  { name: "Item 10" },
-  { name: "Item 11" },
-  { name: "Item 12" },
 ]);
-const selectedName1 = ref(null);
+const selectedName1 = ref(null);//--------------------------------------配色
 
-// 创建第二个网格数据
+// 创建包装类型
 const gridItems2 = ref([
-  { name: "Item A" },
-  { name: "Item B" },
-  { name: "Item C" },
-  { name: "Item D" },
-  { name: "Item E" },
-  { name: "Item F" },
-  { name: "Item G" },
-  { name: "Item H" },
-  { name: "Item I" },
+  { name: "红酒瓶" , image: '/src/assets/pack-img/wine.png'},
+  { name: "手提纸盒" , image: '/src/assets/pack-img/手提纸盒.png'},
+  { name: "纸盒1" , image: '/src/assets/pack-img/纸盒1.png'},
+  // { name: "Item D" },
+  // { name: "Item E" },
+
 ]);
-const selectedName2 = ref(null);
+const selectedName2 = ref(null);//---------------------------------包装类型（跟主体图二选一
+
+
 
 const gridItems3 = ref([
   { name: "Item 1" },
@@ -243,7 +278,7 @@ const gridItems3 = ref([
   { name: "Item 11" },
   { name: "Item 12" },
 ]);
-const selectedName3 = ref(null);
+const selectedName3 = ref(null);//----------------------------------后端暂时没用
 
 // 点击事件处理程序
 const handleClick = (name, gridNumber) => {
@@ -265,6 +300,8 @@ const handleInput = (event) => {
   // 截取前20个字符
   productCopy.value = event.target.value.slice(0, 20);
 };
+
+
 // 点击生成与后端交互
 const handleCreate = () => {
   console.log("执行生成逻辑");
@@ -397,6 +434,23 @@ const handleCreate = () => {
 .LOGO-up-container a:hover {
   color: rgb(211, 211, 211);
 }
+// 字体选择
+
+.dropdown-list {
+  position: absolute;
+  left: 12%;
+  top: 18%;
+  width: 75%;
+  background-color: #fffffff4;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.dropdown-item {
+  padding: 2% 3%;
+  color: black;
+  cursor: pointer; 
+}
 
 // ————————————————————————第二个页面的内容——————————————————————
 .box-02 {
@@ -411,19 +465,35 @@ const handleCreate = () => {
 }
 .item-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 创建四列 */
-  grid-row-gap: 8px; /* 设置行间距 */
+  grid-template-columns: repeat(3, 1fr); /* 创建四列 */
+  grid-row-gap: 10px; /* 设置行间距 */
   grid-column-gap: 15px; /* 设置列间距 */
   margin-top: 18px;
 }
 .grid-item {
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 10px;
+  padding: 8px;
   text-align: center;
-  font-size: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+}
+.grid-item-img::after{
+  opacity: 0.8;
+}
+.grid-item-img {
+  border-radius: 10px;
   cursor: pointer;
 }
+.grid-item-img img{
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto; 
+  border-radius: 10px;
+}
+
 .selected {
   background-color: #92b0fd; /* 设置选中后的背景颜色 */
 }
