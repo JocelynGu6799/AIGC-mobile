@@ -9,7 +9,9 @@
       <div class="box" style="align-items: center">
       </div>
       <div class="img-display-container">
-        <div class="img-box"></div>
+        <div class="img-box">
+          <!-- <img :src="imgurl" alt=""> -->
+        </div>
       </div>
       <div class="down-space">
         <div class="down-title">
@@ -17,7 +19,7 @@
           <img src="@/assets/images/down_logo.png" alt="" />
         </div>
         <div class="down-title" style="justify-content: space-between">
-          <button>下载（JPG）</button>
+          <button @click="saveAs()">下载（JPG）</button>
           <button>工程文件下载&nbsp(DXF)</button>
         </div>
       </div>
@@ -28,7 +30,33 @@
 </template>
 
 <script setup lang="ts">
+import { getViewApi } from '@/api/userApi';
+import { onMounted } from 'vue';
+import {ref} from 'vue'
+import { useDrawStore } from "@/stores/drawStore";
+import { showNotify, closeNotify } from 'vant';
+let drawStore = useDrawStore();
+let imgurl=ref('')
+onMounted(()=>{
+  imgurl.value=drawStore.posterimgurl
+  console.log("imgurl",drawStore.posterimgurl);
+  
+  
+})
+const saveAs=()=>{
+  
+      const link = document.createElement('a');
+      link.href = imgurl.value;
+      link.download = 'posterImg.jpg'; // 下载的文件名
 
+      // 将链接元素添加到页面中并触发点击
+      document.body.appendChild(link);
+      link.click();
+
+      // 移除链接元素
+      document.body.removeChild(link);
+      showNotify({ type: 'success', message: '已保存图片到本地' });
+}
 </script>
 
 <style scoped>
@@ -265,5 +293,8 @@ letter-spacing: 1.5px;
 }
 .box-02 .van-uploader{
   margin-left: 0;
+}
+.img-box img{
+  width: 100%;
 }
 </style>

@@ -169,6 +169,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import {getBlob} from "@/utils/getblob.js"
 const router=useRouter()
 let nowStep = ref(1);
 // 使用 ref 创建一个响应式变量 inputValue
@@ -198,23 +199,27 @@ const fileListbody = ref([
   // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
   //   { url: 'https://cloud-image' },
 ]);
-//品牌图片上传成功后
+//样图上传成功后
 const afterRead = (file) => {
   // 此时可以自行将文件上传至服务器
-  brandImg=file.objectUrl
-  console.log("品牌信息file", brandImg);
+  // brandImg=file.objectUrl
+  // console.log("品牌信息file", brandImg);
+  var base64String = file.content;
+  bodyImg = getBlob(base64String)
+ 
+  console.log("样图信息file", bodyImg);
 
 
 };
 //主体图片上传成功后
 
-const afterReadbody = (file) => {
-  // 此时可以自行将文件上传至服务器
-  bodyImg=file.objectUrl
-  console.log("主体图信息file", bodyImg);
+// const afterReadbody = (file) => {
+//   // 此时可以自行将文件上传至服务器
+//   bodyImg=file.objectUrl
+//   console.log("主体图信息file", bodyImg);
 
 
-};
+// };
 // -------------------------
 // 创建网格数据
 const gridItems1 = ref([
@@ -300,8 +305,73 @@ const handleInput = (event) => {
 };
 // 点击生成与后端交互
 const handleCreate = () => {
-  console.log("执行生成逻辑");
-  router.push({name:'result'})
+let logokeysarr=ref(brandName.value+','+selectedName1.value+','+selectedName2.value+','+selectedName3.value+','+selectedName4.value)
+
+  var fd = new FormData();
+fd.append("logoReference", bodyImg,Date.now() + ".jpg");
+fd.append("logoKeys", logokeysarr.value);
+fd.append("language", "chinese simplified");
+fd.append("weight", "0.6");
+fd.append("prompt", "Custom_Logo");
+fd.append("client", "cuz");
+// getViewApi({prompt_id: "64e8f292-3db5-41cc-b9fa-b37a4e128450", client_id: "client_id_argv" })
+// .then((res)=>console.log(res))
+  console.log("执行生成逻辑",bodyImg,logokeysarr.value);
+  postPosterApi(fd)
+    .then((postres) => {
+
+      console.log("posterupload res", postres);
+      
+
+      const intervalId = setInterval(() => {
+          const loadingInstance = ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
+
+          // getViewApi({ prompt_id: drawStore.prompt_id, client_id: "cuz" })
+          //     .then((response) => {
+          //         console.log("view res", response);
+          //         if (response.statusCode === 200) {
+          //             getGreen();
+          //             console.log("绘图成功", response);
+
+
+          //             const keys = Object.keys(response.data); // 获取对象的所有键
+          //             const firstKey = keys[0]; // 获取数组中的第一个键
+          //             const imgurl = response.data[firstKey]; // 获取第一个键对应的值
+          //             console.log("imgurl,", imgurl);
+          //             drawStore.imgurl=imgurl
+
+          //             loadingInstance.close()
+
+          //             clearInterval(intervalId);
+          //             router.push("/view")
+
+
+          //         }
+          //         else if (response.statusCode === 400) {
+          //             console.log("等待绘图中...");
+          //         } else {
+          //             console.log("绘图失败");
+          //             loadingInstance.close()
+          //         clearInterval(intervalId);
+          //         }
+
+          //     }).catch((error) => {
+          //         console.error("获取绘图数据失败:", error);
+          //         loadingInstance.close()
+          //         clearInterval(intervalId);
+          //         // setTimeout(()=>{
+          //         //     router.push("/")
+          //         // },1000)
+
+          //     });
+      }, 2000)
+
+
+    }).catch((error) => {
+      console.error("获取上传数据失败:", error);
+    });
+  // router.push({name:'posterview'})
+
 };
 </script>
 
