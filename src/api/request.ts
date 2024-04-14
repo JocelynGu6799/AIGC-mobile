@@ -5,7 +5,7 @@ import { showNotify } from "vant";
 
 const req = axios.create({
   baseURL: base.host,
-  timeout:20000,
+  timeout:30000,
   // headers: {'Access-Control-Allow-Origin': '*'},
  
 });
@@ -51,7 +51,7 @@ req.interceptors.response.use(
     // }
   },
   (err) => {
-    showNotify({ type: "danger", message: "网络错误" });
+    // showNotify({ type: "danger", message: "网络错误" });
 
     return Promise.reject(err);
   }

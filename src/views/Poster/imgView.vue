@@ -10,7 +10,7 @@
       </div>
       <div class="img-display-container">
         <div class="img-box">
-          <!-- <img :src="imgurl" alt=""> -->
+          <img :src="imgurl" alt="">
         </div>
       </div>
       <div class="down-space">
@@ -255,7 +255,7 @@ margin: 80px 0 20px 0;
 }
 .img-box {
 width: 100%;
-height: 400px;
+height: 432px;
 position: relative;
 top:-50px;
 border: 1px solid #ccc;

@@ -6,10 +6,11 @@ export const useDrawStore = defineStore('draw2', () => {
     // const contentId = ref('')
     // const dataUrl = ref('')
     // const prompt_id = ref('')
-    const packimgurl = ref('https://cuz-meiti.oss-cn-hangzhou.aliyuncs.com/cuzaigc/clientId_client_id_argv/Image_20240412_194900_1?x-oss-process=style/small')
-    const logoimgurl = ref('https://cuz-meiti.oss-cn-hangzhou.aliyuncs.com/cuzaigc/clientId_client_id_argv/Image_20240412_194900_1?x-oss-process=style/small')
-    const posterimgurl = ref('https://cuz-meiti.oss-cn-hangzhou.aliyuncs.com/cuzaigc/clientId_client_id_argv/Image_20240412_194900_1?x-oss-process=style/small')
-    
+    const packimgurl1 = ref('')
+    const packimgurl2 = ref('')
+    const logoimgurl1 = ref('')
+    const logoimgurl2 = ref('')
+    const posterimgurl = ref('')
 
     //`computed()` 就是 `getters`
     
@@ -18,5 +19,5 @@ export const useDrawStore = defineStore('draw2', () => {
     //   count.value++
     // }
   
-    return { packimgurl,logoimgurl,posterimgurl}
+    return { packimgurl1,packimgurl2,logoimgurl1,logoimgurl2,posterimgurl}
   },{persist:true})

@@ -87,11 +87,13 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { postPosterApi } from "@/api/PosterApi"
+import { postGenerateApi } from "@/api/generateApi"
 import {getBlob} from "@/utils/getblob.js"
 import { ElLoading } from 'element-plus';
 import{ onMounted } from "vue";
 import { getViewApi } from "@/api/userApi";
+import { useDrawStore } from "@/stores/drawStore";
+let drawStore=useDrawStore()
 onMounted(()=>{
   // ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
 
@@ -166,7 +168,7 @@ const gridItems2 = ref([
 const selectedName2 = ref(null);
 
 const gridItems3 = ref([
-  { name: "山水自然", prompt: "FINAL_POSTER_DEMO0001" },
+  { name: "山水自然", prompt: "poster_test" },
   { name: "晶石国风", prompt: "FINAL_POSTER_DEMO0002" },
   { name: "纸雕风格", prompt: "FINAL_POSTER_DEMO0003" },
 ]);
@@ -206,6 +208,8 @@ const handleInput = (event) => {
 
 // 点击生成与后端交互
 const handleCreate = () => {
+  const loadingInstance = ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
+  let calledGetViewApi = ref(true);
 
   //后端传参
 var fd = new FormData();
@@ -218,54 +222,62 @@ fd.append("client", "cuz");
 // getViewApi({prompt_id: "64e8f292-3db5-41cc-b9fa-b37a4e128450", client_id: "client_id_argv" })
 // .then((res)=>console.log(res))
   console.log("执行生成逻辑", bodyImg, brandImg, brandName.value, postercontent.value, selectedName2.value);
-  postPosterApi(fd)
+  postGenerateApi(fd,{product:'poster'})
     .then((postres) => {
 
       console.log("posterupload res", postres);
-      
+     
 
       const intervalId = setInterval(() => {
-          const loadingInstance = ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
+        if(calledGetViewApi.value){
+          console.log("calledGetViewApi",calledGetViewApi.value);
 
-          // getViewApi({ prompt_id: drawStore.prompt_id, client_id: "cuz" })
-          //     .then((response) => {
-          //         console.log("view res", response);
-          //         if (response.statusCode === 200) {
-          //             getGreen();
-          //             console.log("绘图成功", response);
-
-
-          //             const keys = Object.keys(response.data); // 获取对象的所有键
-          //             const firstKey = keys[0]; // 获取数组中的第一个键
-          //             const imgurl = response.data[firstKey]; // 获取第一个键对应的值
-          //             console.log("imgurl,", imgurl);
-          //             drawStore.imgurl=imgurl
-
-          //             loadingInstance.close()
-
-          //             clearInterval(intervalId);
-          //             router.push("/view")
+          getViewApi({ prompt_id: postres.prompt_id, client_id: "cuz" })
+              .then((response) => {
+                  console.log("view res", response);
+                  if (response.statusCode === 200) {
+                      
+                      console.log("绘图成功", response);
 
 
-          //         }
-          //         else if (response.statusCode === 400) {
-          //             console.log("等待绘图中...");
-          //         } else {
-          //             console.log("绘图失败");
-          //             loadingInstance.close()
-          //         clearInterval(intervalId);
-          //         }
+                      const keys = Object.keys(response.data); // 获取对象的所有键
+                      const firstKey = keys[0]; // 获取数组中的第一个键
+                      const imgurl = response.data[firstKey]; // 获取第一个键对应的值
+                      console.log("imgurl,", imgurl);
+                      drawStore.posterimgurl=imgurl
 
-          //     }).catch((error) => {
-          //         console.error("获取绘图数据失败:", error);
-          //         loadingInstance.close()
-          //         clearInterval(intervalId);
-          //         // setTimeout(()=>{
-          //         //     router.push("/")
-          //         // },1000)
+                      loadingInstance.close()
 
-          //     });
+                      clearInterval(intervalId);
+                      calledGetViewApi=false
+                      router.push("/poster/view")
+
+
+                  }
+                  else if (response.statusCode === 400) {
+                      console.log("等待绘图中...");
+                  } else {
+                      console.log("绘图失败");
+                      loadingInstance.close()
+                      calledGetViewApi.value=false
+
+                  clearInterval(intervalId);
+                  }
+
+              }).catch((error) => {
+                  console.error("获取绘图数据失败:", error);
+                  loadingInstance.close()
+                  clearInterval(intervalId);
+                  calledGetViewApi.value=false
+
+                  // setTimeout(()=>{
+                  //     router.push("/")
+                  // },1000)
+
+              });
+            }
       }, 2000)
+      
 
 
     }).catch((error) => {
@@ -545,3 +557,4 @@ fd.append("client", "cuz");
   margin-left: -190px;
 }
 </style>
+@/api/generateApi
