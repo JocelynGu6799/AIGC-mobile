@@ -247,9 +247,10 @@ fd.append("client", "cuz");
                       drawStore.posterimgurl=imgurl
 
                       loadingInstance.close()
+                      calledGetViewApi.value=false
+
 
                       clearInterval(intervalId);
-                      calledGetViewApi=false
                       router.push("/poster/view")
 
 
