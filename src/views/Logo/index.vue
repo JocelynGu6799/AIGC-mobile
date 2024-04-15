@@ -102,7 +102,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref ,watch } from "vue";
 import { useRouter } from "vue-router";
 import { postGenerateApi } from "@/api/generateApi"
 import { getBlob } from "@/utils/getblob.js"
@@ -245,10 +245,11 @@ const handleInput = (event) => {
   // 截取前20个字符
   productCopy.value = event.target.value.slice(0, 20);
 };
+  let calledGetViewApi = ref(true);
+
 // 点击生成与后端交互
 const handleCreate = () => {
   const loadingInstance = ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
-  let calledGetViewApi = ref(true);
   let logokeysarr = ref(brandName.value + ',' + selectedName1.value + ',' + selectedName2.value + ',' + selectedName3.value + ',' + selectedName4.value)
 
   var fd = new FormData();
@@ -289,9 +290,9 @@ const handleCreate = () => {
                 drawStore.logoimgurl2 = imgurl2
 
                 loadingInstance.close()
+                calledGetViewApi.value = false
 
                 clearInterval(intervalId);
-                calledGetViewApi = false
                 router.push("/logo/view")
 
 
@@ -327,6 +328,15 @@ const handleCreate = () => {
     });
 
 };
+watch(
+  calledGetViewApi,
+  (newValue, oldValue) => {
+    console.log("newValue",newValue);
+
+    // 立即执行，且当 `source` 改变时再次执行
+  },
+  { immediate: true }
+)
 </script>
 
 <style lang="scss" scoped>

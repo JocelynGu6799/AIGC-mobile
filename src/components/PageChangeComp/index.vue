@@ -50,7 +50,7 @@ const handleCreate = () => {
     height: 42px;
     font-size: 18px;
     letter-spacing: 5px;
-    position: absolute;
+    position: fixed;
 }
 
 .laststep,

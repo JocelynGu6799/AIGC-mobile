@@ -62,7 +62,7 @@
           :preview-size="[311, 100]" upload-text="支持PNG/JPG模式,最大不超过2M" />
       </div>
       <div class="box-03" style="border: 0px">
-        <p>参考图</p>
+        <p>添加产品主体照片</p>
         <van-uploader class="van-uploader" v-model="fileListbody" :after-read="afterReadbody" reupload max-count="1"
           :preview-size="[311, 100]" upload-text="支持PNG/JPG模式,最大不超过2M" />
       </div>
@@ -261,9 +261,10 @@ fd.append("client", "cuz");
                       drawStore.posterimgurl=imgurl
 
                       loadingInstance.close()
+                      calledGetViewApi.value=false
+
 
                       clearInterval(intervalId);
-                      calledGetViewApi=false
                       router.push("/poster/view")
 
 

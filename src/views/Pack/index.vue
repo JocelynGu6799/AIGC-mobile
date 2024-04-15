@@ -102,7 +102,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref,watch  } from "vue";
 import { useRouter } from "vue-router";
 import { postGenerateApi } from "@/api/generateApi";
 import { getBlob } from "@/utils/getblob.js";
@@ -122,9 +122,9 @@ let bodyImg = ref(""); //----------------------------------------------------添
 let selectedName2 = ref(null); //---------------------------------包装类型（跟主体图二选一
 // 创建包装类型
 const gridItems2 = ref([
-  { name: "红酒瓶", image: "/src/assets/pack-img/wine.png" },
-  { name: "手提纸盒", image: "/src/assets/pack-img/手提纸盒.png" },
-  { name: "纸盒1", image: "/src/assets/pack-img/纸盒1.png" },
+  { name: "红酒瓶", image: "/src/assets/images/wine.png" },
+  { name: "手提纸盒", image: "/src/assets/images/手提纸盒.png" },
+  { name: "纸盒1", image: "/src/assets/images/纸盒1.png" },
   // { name: "Item D" },
   // { name: "Item E" },
 ]);
@@ -187,20 +187,20 @@ const afterRead = (file) => {
 //主体图片上传成功后
 
 const afterReadbody = (file) => {
-  let imgElement=null
+  let imgElement = null
   // console.log("");
   // 如果是自己上传的就直接转,是自选的那就canvas
   if (file) {
     var base64String = file.content;
     bodyImg = getBlob(base64String);
   } else {
-    if (selectedName2.value === "/src/assets/pack-img/wine.png") {
+    if (selectedName2.value === "/src/assets/images/wine.png") {
       imgElement = document.querySelector(".grid-item-img:nth-child(1) img");
     }
-    if (selectedName2.value === "/src/assets/pack-img/手提纸盒.png") {
+    if (selectedName2.value === "/src/assets/images/手提纸盒.png") {
       imgElement = document.querySelector(".grid-item-img:nth-child(2) img");
     }
-    if (selectedName2.value === "/src/assets/pack-img/纸盒1.png") {
+    if (selectedName2.value === "/src/assets/images/纸盒1.png") {
       imgElement = document.querySelector(".grid-item-img:nth-child(3) img");
     }
     console.log("imgElement", imgElement);
@@ -216,7 +216,7 @@ const afterReadbody = (file) => {
     // 在 Canvas 上绘制图像
     ctx.drawImage(imgElement, 0, 0, imgElement.width, imgElement.height,);
     // setTimeout(() => {
-      // document.body.append(canvas)
+    // document.body.append(canvas)
 
     // }, 1000)
 
@@ -369,10 +369,23 @@ const handleCreate = () => {
       }, 2000);
     })
     .catch((error) => {
+      showNotify({ type: "danger", message: "网络错误" });
+      loadingInstance.close();
+      clearInterval(intervalId);
+      calledGetViewApi.value = false;
       console.error("获取上传数据失败:", error);
     });
   // router.push({name:'posterview'})
 };
+// watch(
+//   calledGetViewApi,
+//   (newValue, oldValue) => {
+//     console.log("newValue",newValue);
+
+//     // 立即执行，且当 `source` 改变时再次执行
+//   },
+//   { immediate: true }
+// )
 </script>
 
 <style lang="scss" scoped>

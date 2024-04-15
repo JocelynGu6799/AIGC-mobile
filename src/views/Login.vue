@@ -94,7 +94,7 @@ const loginInfo=ref<ILoginInfo>({
     text-align: center;
     /* line-height: ; */
     font-size: 8px;
-    position: absolute;
+    position: fixed;
     /* left: 50%; */
     /* margin-left: -68px; */
     z-index: 2;

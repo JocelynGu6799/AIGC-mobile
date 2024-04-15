@@ -15,7 +15,7 @@ const router=useRouter()
 <style scoped>
 .footer{
     width: 115px;
-    position: absolute;
+    position: fixed;
     bottom:30px;
     left: 50%;
     margin-left: -57.5px;
