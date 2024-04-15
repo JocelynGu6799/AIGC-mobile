@@ -39,10 +39,9 @@
         <div class="box-02">
           <p>请选择您的行业</p>
           <div class="item-container02">
-            <div v-for="item in gridItems1" :key="item.name" class="grid-item" @click="handleClick(item.name, 1)"
-              :class="{ selected: selectedName1 === item.name }">
-              {{ item.name }}
-            </div>
+            <div v-for="item in gridItems1" :key="item.name" class="grid-item" @click="toggleSelection1(item)"
+            :class="{ 'selected': isSelected1(item) }">{{ item.name }}
+          </div>
           </div>
         </div>
         <div class="box-02">
@@ -158,7 +157,21 @@ const gridItems1 = ref([
   { name: "餐饮/食品" },
   { name: "丽人/美发" },
 ]);
-const selectedName1 = ref(null);
+const selectedName1 = ref([]);
+const toggleSelection1 = (item) => {
+  const index = selectedName1.value.indexOf(item);
+  if (index === -1) {
+    selectedName1.value.push(item);
+  } else {
+    selectedName1.value.splice(index, 1);
+  }
+};
+const isSelected1 = (item) => {
+  return selectedName1.value.includes(item);
+};
+const handleClick1 = (prompt, step) => {
+  // 处理点击事件，你可以在这里添加额外的逻辑
+};
 
 // 创建第二个网格数据
 const gridItems2 = ref([
@@ -204,6 +217,7 @@ const handleInput = (event) => {
   // 截取前35个字符
   postercontent.value = event.target.value.slice(0, 35);
 };
+
 
 
 // 点击生成与后端交互
@@ -484,7 +498,8 @@ fd.append("client", "cuz");
 // --------------------------第三个页面
 .box-03 {
   width: 100%;
-  margin-top: 30px;
+  top: 10px;
+  margin-top: 5px;
   margin-left: 15px;
   height: 150px;
   position: relative;
@@ -492,7 +507,7 @@ fd.append("client", "cuz");
 
 .box-03 p {
   font-size: 17px;
-  letter-spacing: 5px;
+  letter-spacing: 3px;
 }
 
 .box-04 {
