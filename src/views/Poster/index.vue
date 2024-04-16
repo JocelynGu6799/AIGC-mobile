@@ -27,27 +27,25 @@
             <p>&nbsp海报内容</p>
             <div class="textarea-container">
               <textarea v-model="postercontent" @input="handleInput" class="custom-input-plus"
-                placeholder="请输入文案内容"></textarea>
+                placeholder="描述您对海报内容的要求"></textarea>
               <span class="char-counter">{{ postercontent.length }}/35</span>
             </div>
           </div>
         </div>
       </div>
-      <!-- total-steps可以改成这个工作流程需要的步骤数量, -->
     </div>
     <div v-if="nowStep === 2">
       <div class="content-container">
         <div class="box-02">
           <p>请选择您的行业</p>
           <div class="item-container02">
-            <div v-for="item in gridItems1" :key="item.name" class="grid-item" @click="handleClick(item.name, 1)"
-              :class="{ selected: selectedName1 === item.name }">
-              {{ item.name }}
-            </div>
+            <div v-for="item in gridItems1" :key="item.name" class="grid-item" @click="toggleSelection1(item)"
+            :class="{ 'selected': isSelected1(item) }">{{ item.name }}
+          </div>
           </div>
         </div>
         <div class="box-02">
-          <p>请选择风格设置</p>
+          <p>*请选择风格设置</p>
           <div class="item-container02">
             <div v-for="item in gridItems3" :key="item.name" class="grid-item" @click="handleClick(item.prompt, 2)"
               :class="{ selected: selectedName2 === item.prompt }">
@@ -59,17 +57,17 @@
     </div>
     <div v-if="nowStep === 3">
       <div class="box-03" style="border: 0px">
-        <p>品牌信息（LOGO）</p>
+        <p>*LOGO贴图</p>
         <van-uploader class="van-uploader" v-model="fileListbrand" :after-read="afterReadbrand" reupload max-count="1"
           :preview-size="[311, 100]" upload-text="支持PNG/JPG模式,最大不超过2M" />
       </div>
       <div class="box-03" style="border: 0px">
-        <p>添加主体图</p>
+        <p>*添加产品主体照片</p>
         <van-uploader class="van-uploader" v-model="fileListbody" :after-read="afterReadbody" reupload max-count="1"
           :preview-size="[311, 100]" upload-text="支持PNG/JPG模式,最大不超过2M" />
       </div>
-      <div class="box-04">
-        <p>海报类型</p>
+      <div class="box-03">
+        <p>*海报图比例</p>
         <div class="item-container03">
           <div v-for="item in gridItems2" :key="item.name" class="grid-item" @click="handleClick(item.name, 3)"
             :class="{ selected: selectedName3 === item.name }">
@@ -127,6 +125,7 @@ const fileListbody = ref([
   // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
   //   { url: 'https://cloud-image' },
 ]);
+
 //品牌图片上传成功后
 const afterReadbrand = (file) => {
   // 此时可以自行将文件上传至服务器
@@ -140,8 +139,8 @@ const afterReadbrand = (file) => {
 
 
 };
-//主体图片上传成功后
 
+//主体图片上传成功后
 const afterReadbody = (file) => {
   var base64String = file.content;
   bodyImg = getBlob(base64String)
@@ -150,7 +149,7 @@ const afterReadbody = (file) => {
 
 
 };
-// -------------------------
+
 // 创建网格数据
 const gridItems1 = ref([
   { name: "影视" },
@@ -160,12 +159,23 @@ const gridItems1 = ref([
   { name: "餐饮/食品" },
   { name: "丽人/美发" },
 ]);
-const selectedName1 = ref(null);
+const selectedName1 = ref([]);
+const toggleSelection1 = (item) => {
+  const index = selectedName1.value.indexOf(item);
+  if (index === -1) {
+    selectedName1.value.push(item);
+  } else {
+    selectedName1.value.splice(index, 1);
+  }
+};
+const isSelected1 = (item) => {
+  return selectedName1.value.includes(item);
+};
+
 
 // 创建第二个网格数据
 const gridItems2 = ref([
   { name: "9:16" },
-  { name: "1:1" },
 ]);
 const selectedName2 = ref(null);
 
@@ -198,6 +208,7 @@ const handleClick = (name, gridNumber) => {
   // }
   // console.log(selectedName1,selectedName2,selectedName3);
 };
+
 // -----------------------------
 
 // 处理输入事件
@@ -210,6 +221,13 @@ const handleInput = (event) => {
 
 // 点击生成与后端交互
 const handleCreate = () => {
+  // 检查必传参数是否已传递
+  if (!bodyImg || !brandImg || !brandName.value || !postercontent.value || !selectedName2.value) {
+    console.error("缺少必要参数，请确保所有必传参数都已传递。");
+    showNotify({ message: '请输入必选内容' });
+    return; 
+  }
+
   const loadingInstance = ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
   let calledGetViewApi = ref(true);
 
@@ -489,7 +507,8 @@ fd.append("client", "cuz");
 // --------------------------第三个页面
 .box-03 {
   width: 100%;
-  margin-top: 30px;
+  top: 10px;
+  margin-top: 5px;
   margin-left: 15px;
   height: 150px;
   position: relative;
@@ -497,7 +516,7 @@ fd.append("client", "cuz");
 
 .box-03 p {
   font-size: 17px;
-  letter-spacing: 5px;
+  letter-spacing: 3px;
 }
 
 .box-04 {
@@ -516,11 +535,8 @@ fd.append("client", "cuz");
 .item-container03 {
   display: grid;
   grid-template-columns: repeat(2, 2fr);
-  /* 创建四列 */
-  grid-row-gap: 25px;
-  /* 设置行间距 */
+  grid-row-gap:5px;
   grid-column-gap: 10px;
-  /* 设置列间距 */
   margin-top: 20px;
   // margin-left: -10px;
 }

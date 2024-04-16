@@ -334,7 +334,15 @@ const handleCreate = () => {
     });
 
 };
+watch(
+  calledGetViewApi,
+  (newValue, oldValue) => {
+    console.log("newValue",newValue);
 
+    // 立即执行，且当 `source` 改变时再次执行
+  },
+  { immediate: true }
+)
 </script>
 
 <style lang="scss" scoped>
