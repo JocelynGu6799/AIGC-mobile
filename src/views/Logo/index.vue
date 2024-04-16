@@ -18,18 +18,18 @@
         </div>
         <div class="content-container">
           <div class="box">
-            <p>*品牌（公司）名称</p>
+            <p>品牌（公司）名称</p>
             <input v-model="brandName" type="text" class="custom-input" placeholder="请输入品牌（公司）名称" />
           </div>
           <div class="box">
-            <p>*传入样图</p>
+            <p>传入样图</p>
             <van-uploader v-model="fileListbrand" :after-read="afterRead" reupload max-count="1"
               :preview-size="[311, 90]" upload-text="支持PNG/JPG模式,最大不超过2M" />
 
           </div>
 
           <div class="box" style="border: 0px;">
-            <p>&nbsp形状设置</p>
+            <p>形状设置</p>
             <div class="item-container">
               <div v-for="item in gridItems1" :key="item.name" class="grid-item" @click="handleClick(item.name, 1)"
                 :class="{ selected: selectedName1 === item.name }">
@@ -64,16 +64,16 @@
     <div v-if="nowStep === 3">
       <div class="content-container">
         <div class="box-02">
-          <p>颜色设置</p>
+          <p>配色设置</p>
           <div class="item-container03">
-            <div v-for="item in gridItems3" :key="item.name" class="grid-item" @click="handleClick(item.name, 3)"
-              :class="{ selected: selectedName3 === item.name }">
-              {{ item.name }}
-            </div>
+            <div v-for="item in gridItems3" :key="item.name" class="grid-item" @click="handleClick1(item.name)"
+            :class="{ selected: isSelected(item.name) }">
+            {{ item.name }}
+          </div>
           </div>
         </div>
         <div class="box-03" style="border: 0px;">
-          <input v-model="mycolor" type="text" class="custom-input" placeholder="自定义输入颜色" />
+          <input v-model="mycolor" type="text" class="custom-input" placeholder="自定义输入配色" />
         </div>
       </div>
     </div>
@@ -81,17 +81,14 @@
     <div v-if="nowStep === 4">
       <div class="content-container">
         <div class="box-02">
-          <p>画面主体</p>
-          <div class="item-container03">
-            <div v-for="item in gridItems4" :key="item.name" class="grid-item" @click="handleClick(item.name, 4)"
-              :class="{ selected: selectedName4 === item.name }">
-              {{ item.name }}
-            </div>
-          </div>
+          <p>描述你对logo内容的要求</p>
         </div>
-        <div class="box-03" style="border: 0px;">
-          <input v-model="mybody" type="text" class="custom-input" placeholder="自定义输入主体" />
+
+        <div class="textarea-container">
+              <textarea v-model="postercontent" @input="handleInput" class="custom-input-plus"
+                placeholder="请输入文案内容"></textarea>
         </div>
+        
       </div>
     </div>
 
@@ -206,7 +203,21 @@ const gridItems3 = ref([
   { name: "粉色" },
   { name: "棕色" },
 ]);
-const selectedName3 = ref(null);
+const selectedName3 = ref([]);
+const handleClick1 = (name) => {
+  const index = selectedName3.value.indexOf(name);
+  if (index === -1) {
+    // 如果项目名称不在已选中的数组中，将其添加进去
+    selectedName3.value.push(name);
+  } else {
+    // 如果项目名称已经在已选中的数组中，将其从数组中移除
+    selectedName3.value.splice(index, 1);
+  }
+};
+
+const isSelected = (name) => {
+  return selectedName3.value.includes(name);
+};
 
 const gridItems4 = ref([
   { name: "猫" },
@@ -236,7 +247,7 @@ const handleClick = (name, gridNumber) => {
     // 更新选中名称（第三个网格）
     selectedName3.value = name;
   } else if (gridNumber === 4) {
-    // 更新选中名称（第三个网格）
+    // 更新选中名称（第四个网格）
     selectedName4.value = name;
   }
 };
@@ -251,9 +262,15 @@ const handleInput = (event) => {
 
 // 点击生成与后端交互
 const handleCreate = () => {
-  const loadingInstance = ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
-  let logokeysarr = ref(brandName.value + ',' + selectedName1.value + ',' + selectedName2.value + ',' + selectedName3.value + ',' + selectedName4.value)
 
+  if(brandName.value === null && selectedName1.value === null && selectedName2.value === null
+     && selectedName4.value === null){
+    showNotify({ type: 'danger', message: '请输入必选内容' });
+  }
+
+  let logokeysarr = ref(brandName.value + ',' + selectedName1.value + ',' + selectedName2.value + ',' + selectedName3.value.join() + ',' + selectedName4.value)
+  const loadingInstance = ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
+  
   var fd = new FormData();
   fd.append("logoReference", bodyImg, Date.now() + ".jpg");
   fd.append("logoKeys", logokeysarr.value);
@@ -467,8 +484,8 @@ watch(
 
 .textarea-container {
   position: relative;
-  // width: 80%;
-  height: 120px;
+  width: 75%;
+  height: 480px;
   padding: 10px;
   margin: 3% 5% 5% 5%;
   border: 1px solid white;
