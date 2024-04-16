@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="box-02">
-          <p>请选择风格设置</p>
+          <p>*请选择风格设置</p>
           <div class="item-container02">
             <div v-for="item in gridItems3" :key="item.name" class="grid-item" @click="handleClick(item.prompt, 2)"
               :class="{ selected: selectedName2 === item.prompt }">
@@ -57,17 +57,17 @@
     </div>
     <div v-if="nowStep === 3">
       <div class="box-03" style="border: 0px">
-        <p>LOGO贴图</p>
+        <p>*LOGO贴图</p>
         <van-uploader class="van-uploader" v-model="fileListbrand" :after-read="afterReadbrand" reupload max-count="1"
           :preview-size="[311, 100]" upload-text="支持PNG/JPG模式,最大不超过2M" />
       </div>
       <div class="box-03" style="border: 0px">
-        <p>添加产品主体照片</p>
+        <p>*添加产品主体照片</p>
         <van-uploader class="van-uploader" v-model="fileListbody" :after-read="afterReadbody" reupload max-count="1"
           :preview-size="[311, 100]" upload-text="支持PNG/JPG模式,最大不超过2M" />
       </div>
       <div class="box-03">
-        <p>海报图比例</p>
+        <p>*海报图比例</p>
         <div class="item-container03">
           <div v-for="item in gridItems2" :key="item.name" class="grid-item" @click="handleClick(item.name, 3)"
             :class="{ selected: selectedName3 === item.name }">
@@ -91,6 +91,8 @@ import { ElLoading } from 'element-plus';
 import{ onMounted } from "vue";
 import { getViewApi } from "@/api/userApi";
 import { useDrawStore } from "@/stores/drawStore";
+import { showNotify } from 'vant';
+
 let drawStore=useDrawStore()
 onMounted(()=>{
   // ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
@@ -169,14 +171,11 @@ const toggleSelection1 = (item) => {
 const isSelected1 = (item) => {
   return selectedName1.value.includes(item);
 };
-const handleClick1 = (prompt, step) => {
-  // 处理点击事件，你可以在这里添加额外的逻辑
-};
+
 
 // 创建第二个网格数据
 const gridItems2 = ref([
   { name: "9:16" },
-  { name: "1:1" },
 ]);
 const selectedName2 = ref(null);
 
@@ -222,6 +221,13 @@ const handleInput = (event) => {
 
 // 点击生成与后端交互
 const handleCreate = () => {
+  // 检查必传参数是否已传递
+  if (!bodyImg || !brandImg || !brandName.value || !postercontent.value || !selectedName2.value) {
+    console.error("缺少必要参数，请确保所有必传参数都已传递。");
+    showNotify({ message: '请输入必选内容' });
+    return; 
+  }
+
   const loadingInstance = ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
   let calledGetViewApi = ref(true);
 
