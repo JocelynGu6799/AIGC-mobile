@@ -24,7 +24,7 @@
             <input v-model="brandName2" type="text" class="custom-input" placeholder="请输入海报副标题" />
           </div>
           <div class="box-1">
-            <p>&nbsp海报内容</p>
+            <p>*海报内容</p>
             <div class="textarea-container">
               <textarea v-model="postercontent" @input="handleInput" class="custom-input-plus"
                 placeholder="描述您对海报内容的要求"></textarea>
@@ -76,9 +76,10 @@
         </div>
       </div>
     </div>
-  </div>
-  <PageChangeComp :nowStep="nowStep" :total-steps="3" @change-step="handleStep" @start-create="handleCreate">
+    <PageChangeComp :nowStep="nowStep" :total-steps="3" @change-step="handleStep" @start-create="handleCreate">
   </PageChangeComp>
+  </div>
+  
 
 </template>
 
@@ -314,9 +315,10 @@ fd.append("client", "cuz");
 
 <style lang="scss" scoped>
 // ————————————————————————第一个页面的内容——————————————————————
+
 .Poster-logo {
   width: 100%;
-  height: 100%;
+  // height: 100%;
 }
 
 .title-container {
@@ -506,7 +508,7 @@ fd.append("client", "cuz");
 
 // --------------------------第三个页面
 .box-03 {
-  width: 100%;
+  // width: 100%;
   top: 10px;
   margin-top: 5px;
   margin-left: 15px;
@@ -560,7 +562,7 @@ fd.append("client", "cuz");
 }
 
 .van-uploader {
-  left: 50%;
+  left: 52%;
   margin: 15px auto;
   margin-left: -170px;
   position: absolute
