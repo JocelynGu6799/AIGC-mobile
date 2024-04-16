@@ -18,7 +18,7 @@
         </div>
         <div class="content-container">
           <div class="box">
-            <p>*品牌（公司）名称</p>
+            <p>*品牌（公司）名</p>
             <input v-model="brandName" type="text" class="custom-input" placeholder="请输入品牌（公司）名称"
               @input="handleInputChange" :style="{ fontFamily: selectedFont }" />
             <!-- 添加字体选择 -->
@@ -110,6 +110,8 @@ import { ElLoading } from "element-plus";
 import { onMounted } from "vue";
 import { getViewApi } from "@/api/userApi";
 import { useDrawStore } from "@/stores/drawStore";
+import { showNotify } from "vant";
+
 let drawStore = useDrawStore();
 const router = useRouter();
 let nowStep = ref(1);
@@ -122,9 +124,9 @@ let bodyImg = ref(""); //----------------------------------------------------添
 let selectedName2 = ref(null); //---------------------------------包装类型（跟主体图二选一
 // 创建包装类型
 const gridItems2 = ref([
-  { name: "红酒瓶", image: "/src/assets/images/wine.png" },
-  { name: "手提纸盒", image: "/src/assets/images/手提纸盒.png" },
-  { name: "纸盒1", image: "/src/assets/images/纸盒1.png" },
+  { name: "红酒瓶", image: "./assets/wine.png" },
+  { name: "手提纸盒", image: "./assets/手提纸盒.png" },
+  { name: "纸盒1", image: "./assets/纸盒1.png" },
   // { name: "Item D" },
   // { name: "Item E" },
 ]);
@@ -194,13 +196,13 @@ const afterReadbody = (file) => {
     var base64String = file.content;
     bodyImg = getBlob(base64String);
   } else {
-    if (selectedName2.value === "/src/assets/images/wine.png") {
+    if (selectedName2.value === "./assets/wine.png") {
       imgElement = document.querySelector(".grid-item-img:nth-child(1) img");
     }
-    if (selectedName2.value === "/src/assets/images/手提纸盒.png") {
+    if (selectedName2.value === "./assets/手提纸盒.png") {
       imgElement = document.querySelector(".grid-item-img:nth-child(2) img");
     }
-    if (selectedName2.value === "/src/assets/images/纸盒1.png") {
+    if (selectedName2.value === "./assets/纸盒1.png") {
       imgElement = document.querySelector(".grid-item-img:nth-child(3) img");
     }
     console.log("imgElement", imgElement);
@@ -350,7 +352,7 @@ const handleCreate = () => {
               } else {
                 console.log("绘图失败");
                 loadingInstance.close();
-                calledGetViewApi.value = false;
+                // calledGetViewApi.value = false;
 
                 clearInterval(intervalId);
               }
@@ -359,7 +361,7 @@ const handleCreate = () => {
               console.error("获取绘图数据失败:", error);
               loadingInstance.close();
               clearInterval(intervalId);
-              calledGetViewApi.value = false;
+              // calledGetViewApi.value = false;
 
               // setTimeout(()=>{
               //     router.push("/")
@@ -372,7 +374,7 @@ const handleCreate = () => {
       showNotify({ type: "danger", message: "网络错误" });
       loadingInstance.close();
       clearInterval(intervalId);
-      calledGetViewApi.value = false;
+      // calledGetViewApi.value = false;
       console.error("获取上传数据失败:", error);
     });
   // router.push({name:'posterview'})
@@ -698,4 +700,3 @@ const handleCreate = () => {
   margin-left: 0;
 }
 </style>
-@/api/generateApi

@@ -93,6 +93,8 @@ import { ElLoading } from 'element-plus';
 import{ onMounted } from "vue";
 import { getViewApi } from "@/api/userApi";
 import { useDrawStore } from "@/stores/drawStore";
+import { showNotify } from "vant";
+
 let drawStore=useDrawStore()
 onMounted(()=>{
   // ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
@@ -260,7 +262,7 @@ fd.append("client", "cuz");
                   } else {
                       console.log("绘图失败");
                       loadingInstance.close()
-                      calledGetViewApi.value=false
+                      // calledGetViewApi.value=false
 
                   clearInterval(intervalId);
                   }
@@ -269,7 +271,7 @@ fd.append("client", "cuz");
                   console.error("获取绘图数据失败:", error);
                   loadingInstance.close()
                   clearInterval(intervalId);
-                  calledGetViewApi.value=false
+                  // calledGetViewApi.value=false
 
                   // setTimeout(()=>{
                   //     router.push("/")
@@ -283,6 +285,8 @@ fd.append("client", "cuz");
 
     }).catch((error) => {
       console.error("获取上传数据失败:", error);
+      showNotify({ type: "danger", message: "网络错误" });
+    loadingInstance.close()
     });
   // router.push({name:'posterview'})
 

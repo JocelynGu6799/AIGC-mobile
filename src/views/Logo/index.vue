@@ -110,6 +110,8 @@ import { ElLoading } from 'element-plus';
 import { onMounted } from "vue";
 import { getViewApi } from "@/api/userApi";
 import { useDrawStore } from "@/stores/drawStore";
+import { showNotify } from "vant";
+
 let drawStore = useDrawStore()
 
 const router = useRouter()
@@ -302,7 +304,7 @@ const handleCreate = () => {
               } else {
                 console.log("绘图失败");
                 loadingInstance.close()
-                calledGetViewApi.value = false
+                // calledGetViewApi.value = false
 
                 clearInterval(intervalId);
               }
@@ -311,7 +313,7 @@ const handleCreate = () => {
               console.error("获取绘图数据失败:", error);
               loadingInstance.close()
               clearInterval(intervalId);
-              calledGetViewApi.value = false
+              // calledGetViewApi.value = false
 
               // setTimeout(()=>{
               //     router.push("/")
@@ -325,18 +327,14 @@ const handleCreate = () => {
 
     }).catch((error) => {
       console.error("获取上传数据失败:", error);
+    showNotify({ type: "danger", message: "网络错误" });
+    loadingInstance.close()
+
+
     });
 
 };
-watch(
-  calledGetViewApi,
-  (newValue, oldValue) => {
-    console.log("newValue",newValue);
 
-    // 立即执行，且当 `source` 改变时再次执行
-  },
-  { immediate: true }
-)
 </script>
 
 <style lang="scss" scoped>

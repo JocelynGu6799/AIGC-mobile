@@ -28,6 +28,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+  base:'./'
   // server: {
   //   // http://localhost:5173/api/login -> http://www.test.com/login
   //   proxy: {

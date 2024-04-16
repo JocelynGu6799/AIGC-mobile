@@ -16,11 +16,14 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-
+import useUserStore from "@/stores/userStore";
+let userStore=useUserStore()
 // import router from '@/router';
 const router=useRouter()
 
-let isLogin=false
+let isLogin=userStore.isLogin
+console.log("isLogin",isLogin);
+
 // 是否已登录?登录了跳select,否则跳login,暂时算没登录
 const gotoSelect=()=>{
     router.push("/select")
@@ -80,7 +83,7 @@ p{
    width: 100%;
    text-align: center;
 }
-.loginbtn{
+.van-button{
     width: 100px;
     height: 26px;
     font-size: 12px;

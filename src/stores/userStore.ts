@@ -10,8 +10,10 @@ import type { ILoginParams } from '@/api/userApi'
 
 const useUserStore = defineStore('user', () => {
 
-  const loginAction = async (params: ILoginParams) => {
-  }
+  // const loginAction = async (params: ILoginParams) => {
+  // }
+  let isLogin=ref(false)
+  return {isLogin}
    
 },
 {
