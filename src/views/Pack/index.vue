@@ -9,6 +9,7 @@
     <div v-if="nowStep === 1">
       <!-- 包装页面第一步显示的内容 -->
       <div class="all" style="height: 100%; width: 100%">
+        <!-- ---------------------------- 标题部分   ---------------- -->
         <div class="title-container">
           <img src="@/assets/images/18-Postedby (4) 1.png" alt="" class="title-img" />
           <div class="text-overlay">
@@ -16,47 +17,132 @@
             <p>让创意无界</p>
           </div>
         </div>
+        <!-- -------------------- 内容部分 -- 包装类型   ---------------- -->
         <div class="content-container">
-          <div class="box">
-            <p>*品牌（公司）名称</p>
-            <input v-model="brandName" type="text" class="custom-input" placeholder="请输入品牌（公司）名称"
-              @input="handleInputChange" :style="{ fontFamily: selectedFont }" />
-            <!-- 添加字体选择 -->
-            <ul v-if="showDropdownList" class="dropdown-list">
-              <li v-for="(font, index) in fontList" :key="index" @click="selectFont(font)" class="dropdown-item">
-                {{ font }}
-              </li>
-            </ul>
-          </div>
-          <div class="box">
-            <p>*产品类型</p>
-            <input v-model="productType" type="text" class="custom-input" placeholder="请输入您的产品，例：红酒、盒子" />
-          </div>
-          <div class="box">
-            <p>&nbsp产品文案</p>
-            <div class="textarea-container">
-              <textarea v-model="productCopy" @input="handleInput" class="custom-input-plus"
-                placeholder="请输入文案内容"></textarea>
-              <span class="char-counter">{{ productCopy.length }}/20</span>
+          <div class="box-02">
+            <p>*包装类型</p>
+            <div class="item-container">
+              <div v-for="item in gridItems2" :key="item.name" class="grid-item-img" @click="handleClick(item.image, 2)"
+                :class="{ selected: selectedName2 === item.image }">
+                <img :src="item.image" alt="Item Image" />
+              </div>
+              <div class="grid-item">
+                <van-uploader v-model="fileListbody" :before-read="beforeRead" :after-read="afterReadbody" reupload
+                max-count="1" :preview-size="[95,100]" upload-text="支持PNG/JPG模式,最大不超过10M" class="mainimg" />
+              </div>
             </div>
-          </div>
-          <div class="box" style="border: 0px">
-            <p>&nbsp品牌信息（LOGO）</p>
-            <!-- <div class="LOGO-up-container" >
-                           <a href="#">
-                            <p style="font-size: 30px;margin: 0;">+</p>
-                            <p style="font-size: 12px;">支持PNG/JPG模式,最大不超过2M</p>
-                           </a> 
-                        </div>  -->
-            <van-uploader v-model="fileListbrand" :before-read="beforeRead" :after-read="afterRead" reupload
-              max-count="1" :preview-size="[311, 82]" upload-text="支持PNG/JPG模式,最大不超过10M" />
+            
           </div>
         </div>
       </div>
     </div>
+    <!-- -----------------第二页 --------------- -->
     <div v-if="nowStep === 2">
       <div class="content-container">
-        <div class="box-02">
+        <div class="box">
+            <p>品牌（公司）名称</p>
+            <input v-model="brandName" type="text" class="custom-input" placeholder="请输入品牌（公司）名称"
+               :style="{ fontFamily: ListFont }" />
+            <p style="font-size: 15px;">参数选择</p>
+            <div class="parameter_selection">
+              <div class="row" >
+                <!-- 选择字体------------------------- -->
+                <div class="item" style="width: 62%; ">
+                  <p>字体</p>
+                  <div>
+                    <el-select v-model="ListFont" placeholder="请选择" size="small"  fit-input-width="true"
+                    style="width: 130px;"  >
+                      <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      ></el-option>
+                    </el-select>
+                  </div>
+                </div>
+                <!-- 选择字号--------------------- -->
+                <div class="item" style="width: 38%; ">
+                  <p>字号</p>
+                  <input v-model="ListFontSize" type="number" class="num-input" style="width: 65%;"  placeholder="1~100"/>
+                </div>
+              </div>
+              <div class="row" >
+                <div class="item" style="width: 62%;">
+                  <p>位置</p>
+                  <div style="display: flex;  justify-content: center; ">
+                    <p style="margin-left: 0.5vh;">x</p>
+                    <input v-model="FontPosX" type="number" class="num-input" style="width: 4.5vh; margin-right: 2vh;" placeholder="0~100"/>
+                  </div>
+                  <div style="display: flex;  justify-content: center; ">
+                    <p>y</p>
+                    <input v-model="FontPosY" type="number" class="num-input" style="width: 4.5vh;" placeholder="0~100"/>
+                  </div>
+                </div>
+                <div class="item" style="width: 38%;">
+                  <p>字距</p>
+                  <input v-model="WordSpacing" type="number" class="num-input" style="width: 65%;" placeholder="-1000~100"/>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="box" >
+            <p>品牌信息（LOGO）</p>
+            <van-uploader v-model="fileListbrand" :before-read="beforeRead" :after-read="afterRead" reupload
+              max-count="1" :preview-size="[311, 82]" upload-text="支持PNG/JPG模式,最大不超过10M" 
+              style="border: 1px solid white; border-radius: 10px; margin: 3% 0;" />
+            <p style="font-size: 15px;">参数选择</p>
+            <div class="parameter_selection">
+              <div class="row" >
+                  <div class="item" style="width: 62%;">
+                    <p>位置</p>
+                    <div style="display: flex;  justify-content: center; ">
+                      <p style="margin-left: 0.5vh;">x</p>
+                      <input v-model="LOGOPosX" type="number" class="num-input" style="width: 4.5vh; margin-right: 2vh;" placeholder="0~100"/>
+                    </div>
+                    <div style="display: flex;  justify-content: center; ">
+                      <p>y</p>
+                      <input v-model="LOGOPosY" type="number" class="num-input" style="width: 4.5vh;" placeholder="0~100"/>
+                    </div>
+                  </div>
+                  <div class="item" style="width: 38%;">
+                    <p>大小</p>
+                    <input v-model="LogoSize" type="number" class="num-input" style="width: 65%;" placeholder="0~10"/>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="box" style="border: none;">
+          <p style="margin: 0; padding:1vh; font-size: 10px;">此页为非必选内容，可直接跳过。</p>
+          <van-button type="primary" @click="handlePreview" >预览</van-button>
+          <!-- 弹窗组件 -->
+          <van-popup v-model:show="popupVisible" position="center" :round="true" :style="{width:'40vh',height:'60vh'}">
+            <!-- 弹窗内容，这里放置图片 -->
+            <img :src="popupImageUrl" alt="Preview Image" />
+          </van-popup>
+        </div>
+      </div>
+    </div>
+
+    <!-- ----------------第三页--------------- -->
+    <div v-if="nowStep === 3">
+      <div class="content-container">
+        <!-- 产品类型------------ -->
+        <div class="box">
+          <p>*产品类型</p>
+          <input v-model="productType" type="text" class="custom-input" placeholder="例：盒子" />
+        </div>
+        <!-- 产品描述 -->
+        <div class="box">
+          <p>*产品外观描述</p>
+          <div class="textarea-container">
+            <textarea v-model="productCopy" @input="handleInput" class="custom-input-plus"
+              placeholder="请输入文案内容，例如：精美的外卖盒"></textarea>
+            <span class="char-counter">{{ productCopy.length }}/20</span>
+          </div>
+        </div>
+        <!-- 配色方案 -->
+        <div class="box-02" style="margin-top: 2vh;">
           <p>选择你喜欢的配色方案</p>
           <div class="item-container">
             <div v-for="item in gridItems1" :key="item.name" class="grid-item" @click="handleClick(item.name, 1)"
@@ -64,28 +150,12 @@
               {{ item.name }}
             </div>
           </div>
+          <input v-model="colorType" type="text" class="custom-input" @input="handleInputColor"
+          style="width: 100%;box-sizing: border-box;margin: 2vh 0 0 0;" placeholder="例：玫瑰金、鲜红等" />
         </div>
-        <div class="box-02">
-          <p>*包装类型</p>
-          <div class="item-container">
-            <div v-for="item in gridItems2" :key="item.name" class="grid-item-img" @click="handleClick(item.image, 2)"
-              :class="{ selected: selectedName2 === item.image }">
-              <img :src="item.image" alt="Item Image" />
-            </div>
-          </div>
-        </div>
-        <div class="box-02">
-          <p>添加主体图(可自定义)</p>
-          <van-uploader v-model="fileListbody" :before-read="beforeRead" :after-read="afterReadbody" reupload
-            max-count="1" :preview-size="[292, 100]" upload-text="支持PNG/JPG模式,最大不超过10M" class="mainimg" />
-        </div>
-      </div>
-    </div>
-    <div v-if="nowStep === 3">
-      <div class="content-container">
         <div class="box-02">
           <p>风格设置</p>
-          <div class="item-container03">
+          <div class="item-container">
             <div v-for="item in gridItems3" :key="item.name" class="grid-item" @click="handleClick(item.name, 3)"
               :class="{ selected: selectedName3 === item.name }">
               {{ item.name }}
@@ -117,55 +187,96 @@ let nowStep = ref(1);
 const brandName = ref(""); //-----------------------------------------品牌名称
 const productType = ref(""); //--------------------------------------------产品类型
 const productCopy = ref(""); //-------------------------------------------产品文案
+// 字体 ————————————————————————开始
+const ListFont = ref("");//----------------------------------------------字体名称
+const ListFontSize = ref();//--------------------------------------------字号
+const FontPosX = ref(); // ---------------X轴位置
+const FontPosY = ref();// -------------T轴位置
+const WordSpacing = ref();//  --------字间距
+//字体 ————————————————————————结束
+//===============================================
+// ---------LOGO
 let brandImg = ref(""); //--------------------------------------------------品牌信息(LOGO)图片url
+const LogoSize = ref(); // --------------------------------------------------Logo大小
+const LOGOPosX = ref(); // --------------------------------------------------LogoX位置
+const LOGOPosY = ref(); // --------------------------------------------------LogoY位置
+// -------------结束
 let bodyImg = ref(""); //----------------------------------------------------添加主体图片url
 let selectedName2 = ref(null); //---------------------------------包装类型（跟主体图二选一
+const colorType = ref("");//--------------------------颜色
 // 创建包装类型
 const gridItems2 = ref([
-  { name: "红酒瓶", image: "/src/assets/pack-img/wine.png" },
-  { name: "手提纸盒", image: "/src/assets/pack-img/手提纸盒.png" },
-  { name: "纸盒1", image: "/src/assets/pack-img/纸盒1.png" },
-  // { name: "Item D" },
-  // { name: "Item E" },
+  { name: "红酒瓶", image: "/src/assets/pack-img/Mizune_00001_饮料食品饮料塑料瓶1.png" },
+  { name: "手提纸盒", image: "/src/assets/pack-img/Mizune_00005_饮料食品饮料塑料瓶.png" },
+  { name: "纸盒1", image: "/src/assets/pack-img/Mizune_00009_手提袋.png" },
+  { name: "Item D" , image:"/src/assets/pack-img/Mizune_00018_长方形包装盒.png"},
+  { name: "Item E",image:"/src/assets/pack-img/Mizune_00024_牛奶盒.png" },
 ]);
+
+const canNext = ref(false); //当前页面是否完成输入
+
 const handleStep = (mystep) => {
+  // -------------强制填写逻辑（未完成
+  if( nowStep.value === 1 && (selectedName2.value != null)){
+    canNext.value = true;
+  }
+  if( nowStep.value === 2 ){
+    if(brandImg.value != null && brandName != null){
+      canNext.value = true;
+      console.log(canNext.value);
+    }else if(brandImg.value === null && brandName === null){
+      canNext.value = true;
+      console.log(canNext.value);
+    }else{
+      canNext.value = false;
+      console.log(canNext.value);
+    }
+  }
+
   // mystep的值为-1或1,对应改变nowStep的值
-  console.log("mystep", mystep);
-  nowStep.value += mystep;
+  if(mystep === 1){
+    if(canNext.value === true){
+      console.log("mystep", mystep);
+      nowStep.value += mystep;
+      canNext.value = false;
+    }else{
+      showToast('您还有内容未补充完整');
+    }
+  }else{
+    nowStep.value += mystep;
+    canNext.value = false;
+  }
+  console.log(canNext.value);
+  
 };
+
 const fileListbrand = ref([
   // Uploader 根据文件后缀来判断是否为图片文件
   // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
   //   { url: 'https://cloud-image' },
 ]);
+
 let fileListbody = ref([
-  { url: selectedName2.value },
+  // { url: selectedName2.value },
   // Uploader 根据文件后缀来判断是否为图片文件
   // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
   //   { url: 'https://cloud-image' },
 ]);
 // ---------品牌名称输入后改变字体效果---------------
-const showDropdownList = ref(false);
-const fontList = [
-  "方正黑体简体",
-  "方正楷体简体",
-  "汉仪雅酷黑75W",
-  "YouSheBiaoTiHei-2",
-];
-const selectedFont = ref("Arial"); //-----------------------------------------------输入内容对应的字体font_file
 
-const handleInputChange = (event) => {
-  brandName.value = event.target.value;
-  showDropdownList.value = true;
-};
+// 选中的值和下拉框选项
+const options = ref([
+  { label: '方正黑体简体', value: '方正黑体简体' },
+  { label: '方正楷体简体', value: '方正楷体简体' },
+  { label: '汉仪雅酷黑75W', value: '汉仪雅酷黑75W' },
+  { label: 'YouSheBiaoTiHei-2', value: 'YouSheBiaoTiHei-2' }
+]);
 
-const selectFont = (font) => {
-  selectedFont.value = font; // Update selected font
-  showDropdownList.value = false;
-};
 
 //-----------判断图片大小------------------------
 import { showToast } from "vant";
+// import { pa } from "element-plus/es/locales.mjs";
+// import { log } from "console";
 const beforeRead = (file) => {
   const maxSize = 10 * 1024 * 1024; // 10MB，根据需求设置最大尺寸
   if (file.size > maxSize) {
@@ -175,7 +286,7 @@ const beforeRead = (file) => {
   return true; // 返回 true 表示继续读取文件
 };
 
-//品牌图片上传成功后
+//品牌图片LOGO上传成功后---------------------
 const afterRead = (file) => {
   // 此时可以自行将文件上传至服务器
 
@@ -184,24 +295,25 @@ const afterRead = (file) => {
 
   console.log("logo信息file", brandImg);
 };
-//主体图片上传成功后
 
+//包装类型-------------------上传成功后-------------------
 const afterReadbody = (file) => {
   let imgElement=null
   // console.log("");
-  // 如果是自己上传的就直接转,是自选的那就canvas
   if (file) {
+    //通过直接上传图片---------------------------
+    //------------当我选择上传图片的时候清空之前选择的图片--------------
+    const selectedItems = document.querySelectorAll('.grid-item-img.selected');
+    selectedItems.forEach(item => {item.classList.remove('selected');});
+    selectedName2.value = null;
     var base64String = file.content;
     bodyImg = getBlob(base64String);
   } else {
-    if (selectedName2.value === "/src/assets/pack-img/wine.png") {
-      imgElement = document.querySelector(".grid-item-img:nth-child(1) img");
-    }
-    if (selectedName2.value === "/src/assets/pack-img/手提纸盒.png") {
-      imgElement = document.querySelector(".grid-item-img:nth-child(2) img");
-    }
-    if (selectedName2.value === "/src/assets/pack-img/纸盒1.png") {
-      imgElement = document.querySelector(".grid-item-img:nth-child(3) img");
+    //如果已经选择了预设的图片-----------------------
+    if(selectedName2 != null){
+      // 使用 findIndex 方法查找满足条件的元素在数组中的位置
+      const selectedIndex = gridItems2.value.findIndex(item => item.image === selectedName2.value);
+      imgElement = document.querySelector(`.grid-item-img:nth-child(${selectedIndex + 1}) img`);
     }
     console.log("imgElement", imgElement);
 
@@ -233,30 +345,19 @@ const gridItems1 = ref([
   { name: "蓝色" },
   { name: "红色" },
   { name: "金色" },
-  { name: "Item 4" },
-  { name: "Item 5" },
-  { name: "Item 6" },
-  { name: "Item 7" },
-  { name: "Item 8" },
-  { name: "Item 9" },
 ]);
 const selectedName1 = ref(null); //--------------------------------------配色
 
+
+
 const gridItems3 = ref([
-  { name: "Item 1" },
-  { name: "Item 2" },
-  { name: "Item 3" },
-  { name: "Item 4" },
-  { name: "Item 5" },
-  { name: "Item 6" },
-  { name: "Item 7" },
-  { name: "Item 8" },
-  { name: "Item 9" },
-  { name: "Item 10" },
-  { name: "Item 11" },
-  { name: "Item 12" },
+  { name: "幻想写实" },
+  { name: "幻想真实" },
+  { name: "CG风" },
+  { name: "3D写实" },
+  { name: "真实工业" },
 ]);
-const selectedName3 = ref(null); //----------------------------------后端暂时没用
+const selectedName3 = ref(null); //----------------------------------风格
 
 // 点击事件处理程序
 const handleClick = (name, gridNumber) => {
@@ -266,7 +367,7 @@ const handleClick = (name, gridNumber) => {
   } else if (gridNumber === 2) {
     // 更新选中名称（包装类型）
     selectedName2.value = name;
-    fileListbody.value[0].url = selectedName2.value;
+    // fileListbody.value[0].url = selectedName2.value;
     // 等图片挂载上去之后再说
     setTimeout(() => {
       afterReadbody();
@@ -278,7 +379,15 @@ const handleClick = (name, gridNumber) => {
   console.log("selectedName2.value", selectedName2.value);
   console.log("fileListbody.value", fileListbody.value);
 };
-
+// ----------颜色预设/输入二选一只读取一个------------
+const handleInputColor = () => {
+  // 移除 gridItems1 的 selected 类
+  gridItems1.value.forEach(item => {
+    item.selected = false;
+  });
+  // 更新 selectedName1 的值为输入的内容
+  selectedName1.value = colorType.value;
+};
 // -----------------------------
 
 // 处理输入事件
@@ -287,7 +396,96 @@ const handleInput = (event) => {
   productCopy.value = event.target.value.slice(0, 20);
 };
 
+
+// 控制弹窗显示状态的变量
+const popupVisible = ref(false);
+const popupImageUrl = ref(''); 
 // 点击生成与后端交互
+//预览工作流
+const handlePreview = () => {
+  const loadingInstance = ElLoading.service({
+    fullscreen: true,
+    text: "正在努力绘画中...",
+  });
+  let calledGetViewApi = ref(true);
+  let packkeysarr = ref(
+    brandName.value +
+    "," +
+    productType.value +
+    "," +
+    productCopy.value +
+    "," +
+    selectedName1.value
+  );
+  console.log("packkeysarr.value", packkeysarr.value);
+  let packfd = new FormData();
+  packfd.append("logoRef", brandImg, Date.now() + ".jpg");  //logo
+  packfd.append("packageRef", bodyImg, Date.now() + ".jpg");  //包装参考图
+  packfd.append("text", brandName.value);
+  packfd.append("brand_scale", ListFontSize);
+  packfd.append("spacing", WordSpacing);
+  packfd.append("font_file", ListFont);
+  packfd.append("text_x_percent", FontPosX);
+  packfd.append("text_x_percent", FontPosX);
+  packfd.append("text_y_percent", FontPosY);
+  packfd.append("logo_x_percent", LOGOPosX);
+  packfd.append("logo_y_percent", LOGOPosY);
+  packfd.append("logo_scale", LogoSize);
+  postGenerateApi(packfd, { product: "logo" })
+    .then((postres) => {
+      console.log("posterupload res", postres);
+
+      const intervalId = setInterval(() => {
+        if (calledGetViewApi.value) {
+          console.log("calledGetViewApi", calledGetViewApi.value);
+
+          getViewApi({ prompt_id: postres.prompt_id, client_id: "cuz" })
+            .then((response) => {
+              console.log("view res", response);
+              if (response.statusCode === 200) {
+                console.log("绘图成功", response);
+
+                const keys = Object.keys(response.data); // 获取对象的所有键
+                const firstKey = keys[0]; // 获取数组中的第一个键
+                // const secondKey = keys[1]; // 获取数组中的第一个键
+                const imgurl1 = response.data[firstKey]; // 获取第一个键对应的值
+                // const imgurl2 = response.data[secondKey]; // 获取第一个键对应的值
+                console.log("imgurl,", imgurl1, imgurl2);
+                drawStore.packimgurl1 = imgurl1;
+                // drawStore.packimgurl2 = imgurl2;
+                popupImageUrl.value = drawStore.packimgurl1; //弹窗的图片路径赋值
+                loadingInstance.close();
+
+                clearInterval(intervalId);
+                calledGetViewApi = false;
+                popupVisible.value = true; //显示弹窗
+                
+              } else if (response.statusCode === 400) {
+                console.log("等待绘图中...");
+              } else {
+                console.log("绘图失败");
+                loadingInstance.close();
+                calledGetViewApi.value = false;
+
+                clearInterval(intervalId);
+              }
+            })
+            .catch((error) => {
+              console.error("获取绘图数据失败:", error);
+              loadingInstance.close();
+              clearInterval(intervalId);
+              calledGetViewApi.value = false;
+
+              // setTimeout(()=>{
+              //     router.push("/")
+              // },1000)
+            });
+        }
+      }, 2000);
+    })
+};
+
+//生成工作流
 const handleCreate = () => {
   const loadingInstance = ElLoading.service({
     fullscreen: true,
@@ -305,19 +503,23 @@ const handleCreate = () => {
   );
   console.log("packkeysarr.value", packkeysarr.value);
   let packfd = new FormData();
-  packfd.append("logoRef", brandImg, Date.now() + ".jpg");
-  packfd.append("packageRef", bodyImg, Date.now() + ".jpg");
-  packfd.append("packKeys", packkeysarr.value);
-  packfd.append("content", productType.value);
+  // packfd.append("logoRef", brandImg, Date.now() + ".jpg");  //logo
+  packfd.append("productRef", bodyImg, Date.now() + ".jpg");  //品牌
+  packfd.append("productDesc", packkeysarr.value);
+  packfd.append("style", selectedName3.value);
+  // packfd.append("productDesc", productType.value);
   packfd.append("client", "cuz");
   packfd.append("prompt", "AI_PACK");
-  packfd.append("font_file", selectedFont.value + ".ttf");
-  packfd.append("from_translate", "auto");
-  packfd.append("to_translate", "english");
-  packfd.append("spacing", "-500");
-  console.log("执行生成逻辑", packfd, selectedFont.value + ".ttf");
+  packfd.append("steps", 20);
+  packfd.append("deep", 14);
+  packfd.append("denoise", 0.69);
+  // packfd.append("font_file", ListFont.value + ".ttf");
+  // packfd.append("from_translate", "auto");
+  // packfd.append("to_translate", "english");
+  // packfd.append("spacing", "-500");
+  console.log("执行生成逻辑", packfd, ListFont.value + ".ttf");
   // router.push({name:'packview'})
-  postGenerateApi(packfd, { product: "pack" })
+  postGenerateApi(packfd, { product: 'pack_render' })
     .then((postres) => {
       console.log("posterupload res", postres);
 
@@ -333,12 +535,12 @@ const handleCreate = () => {
 
                 const keys = Object.keys(response.data); // 获取对象的所有键
                 const firstKey = keys[0]; // 获取数组中的第一个键
-                const secondKey = keys[1]; // 获取数组中的第一个键
+                // const secondKey = keys[1]; // 获取数组中的第一个键
                 const imgurl1 = response.data[firstKey]; // 获取第一个键对应的值
-                const imgurl2 = response.data[secondKey]; // 获取第一个键对应的值
+                // const imgurl2 = response.data[secondKey]; // 获取第一个键对应的值
                 console.log("imgurl,", imgurl1, imgurl2);
                 drawStore.packimgurl1 = imgurl1;
-                drawStore.packimgurl2 = imgurl2;
+                // drawStore.packimgurl2 = imgurl2;
 
                 loadingInstance.close();
 
@@ -377,6 +579,7 @@ const handleCreate = () => {
 
 <style lang="scss" scoped>
 // ————————————————————————第一个页面的内容——————————————————————
+//---------banner-----------
 .title-container {
   width: 100%;
   height: auto;
@@ -424,7 +627,7 @@ const handleCreate = () => {
   letter-spacing: 5px;
   /* 设置字间距 */
 }
-
+//-------------------公用外侧容器--------------------
 .content-container {
   position: relative;
   display: flex;
@@ -433,7 +636,74 @@ const handleCreate = () => {
   width: 100%;
   height: auto;
 }
+// ---------------包装类型选择---------------------------
+.box-02 {
+  width: 78%;
+  margin-top: 30px;
+  height: auto;
+}
 
+.box-02 p {
+  font-size: 17px;
+  letter-spacing: 5px;
+}
+
+.item-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-row-gap: 10px;
+  grid-column-gap: 15px;
+  margin-top: 18px;
+}
+
+.grid-item {
+  border: 1px solid #ccc;
+  width: 100%;
+  border-radius: 10px;
+  display: flex;
+  font-size: 15px;
+  padding: 1vh 0;
+  letter-spacing: 5px;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
+.box-02 .van-uploader{
+  margin: 0;
+}
+
+:deep(.van-uploader__upload){
+  margin: 5%;
+
+  border: none;
+}
+:deep(.van-uploader__preview){
+  margin: 0;
+}
+:deep(.van-uploader__upload-text){
+  font-size: 11px;
+  letter-spacing: 0;
+}
+.grid-item-img {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  background-color: white;
+  cursor: pointer;
+}
+
+.grid-item-img img {
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  border-radius: 10px;
+}
+
+.selected {
+  background-color: #92b0fd;
+}
+// -----------------第二个页面--------------
 .box {
   // position: absolute;
   display: flex;
@@ -466,7 +736,7 @@ const handleCreate = () => {
 .textarea-container {
   position: relative;
   // width: 80%;
-  height: 40px;
+  height: 8vh;
   padding: 10px;
   margin: 3% 5% 5% 5%;
   border: 1px solid white;
@@ -484,6 +754,59 @@ const handleCreate = () => {
   font-size: 16px;
   letter-spacing: 4px;
 }
+// -------------参数选择---------
+.parameter_selection{
+  width: 100%;
+  height: auto;
+  margin-bottom: 2%;
+  flex-wrap: wrap;
+}
+.parameter_selection .row {
+  margin: 3% 5% 3% 8%;
+  display: flex;
+}
+.parameter_selection .row .item{
+  margin: 0;
+  display: flex;
+  align-items: center; /* 垂直居中 */
+}
+.parameter_selection .row p{
+  font-size: 13px;
+  margin: 0;
+  padding-right: 2%;
+}
+:deep(.el-select__wrapper){
+  background-color: transparent;
+  border-radius: 10px;
+}
+:deep(.el-select__placeholder){
+  color: white;
+}
+// :deep(.selectFont){
+//   .el-select-dropdown__item{
+//   padding: 0;
+//   }
+// }
+.parameter_selection .num-input{
+  width: 40%;
+  height: auto;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 10px;
+  font-size: 13px;
+  box-sizing: border-box;
+  padding: 2% 7%;
+}
+.parameter_selection .num-input::placeholder {
+  font-size: 10px; 
+  color: #999; 
+}
+
+:deep(.van-cell-group){
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 10px;
+}
 
 .char-counter {
   position: absolute;
@@ -491,152 +814,24 @@ const handleCreate = () => {
   bottom: 6%;
   font-size: 15px;
   color: #666;
-  /* 字体颜色 */
 }
 
-.LOGO-up-container {
-  position: relative;
-  // width: 80%;
-  // height: 40px;
-  padding: 10px 0;
-  margin: 3% 5% 5% 5%;
-  border: 1px solid white;
-  border-radius: 10px;
-}
-
-.LOGO-up-container a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #666;
-  text-decoration: none;
-}
-
-.LOGO-up-container a:hover {
-  color: rgb(211, 211, 211);
-}
-
-// 字体选择
-
-.dropdown-list {
-  position: absolute;
-  left: 12%;
-  top: 18%;
-  width: 75%;
-  background-color: #fffffff4;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-
-.dropdown-item {
-  padding: 2% 3%;
-  color: black;
-  cursor: pointer;
-}
-
-// ————————————————————————第二个页面的内容——————————————————————
-.box-02 {
-  width: 78%;
-  margin-top: 30px;
-  height: auto;
-}
-
-.box-02 p {
-  font-size: 17px;
-  letter-spacing: 5px;
-}
-
-.item-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  /* 创建四列 */
-  grid-row-gap: 10px;
-  /* 设置行间距 */
-  grid-column-gap: 15px;
-  /* 设置列间距 */
-  margin-top: 18px;
-}
-
-.grid-item {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 8px;
-  text-align: center;
-  font-size: 15px;
-  cursor: pointer;
-  background-size: cover;
-  background-position: center;
-}
-
-.grid-item-img::after {
-  opacity: 0.8;
-}
-
-.grid-item-img {
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.grid-item-img img {
-  max-width: 100%;
-  max-height: 100%;
-  margin: auto;
-  border-radius: 10px;
-}
-
-.selected {
-  background-color: #92b0fd;
-  /* 设置选中后的背景颜色 */
-}
-
-.img-up-container {
-  position: relative;
-  width: 100%;
-  padding: 7% 0;
-  margin: 5% 0;
-  border: 1px solid white;
-  border-radius: 10px;
-}
-
-.img-up-container a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #666;
-  text-decoration: none;
-}
-
-.img-up-container a:hover {
-  color: rgb(211, 211, 211);
-}
-
-// -------------------------------------
-.item-container03 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  /* 创建四列 */
-  grid-row-gap: 20px;
-  /* 设置行间距 */
-  grid-column-gap: 35px;
-  /* 设置列间距 */
-  margin-top: 18px;
-}
-
-.item-container03 .grid-item {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 20px 10px;
-  text-align: center;
-  font-size: 17px;
-  cursor: pointer;
-}
-
-.item-container03 .selected {
-  background-color: #92b0fd;
-  /* 设置选中后的背景颜色 */
-}
-
-// --------------------------最后一个页面
+// 字体选择.....暂时没用
+// .dropdown-list {
+//   position: absolute;
+//   left: 12%;
+//   top: 18%;
+//   width: 75%;
+//   background-color: #fffffff4;
+//   border-bottom-left-radius: 10px;
+//   border-bottom-right-radius: 10px;
+// }
+// .dropdown-item {
+//   padding: 2% 3%;
+//   color: black;
+//   cursor: pointer;
+// }
+// 没找出来而且没印象
 .img-display-container {
   width: 70%;
   margin: 40px 0 20px 0;
@@ -676,13 +871,5 @@ const handleCreate = () => {
   letter-spacing: 1.5px;
 }
 
-.van-uploader {
-  margin: 15px auto;
-  margin-left: 17px;
-}
-
-.box-02 .van-uploader {
-  margin-left: 0;
-}
 </style>
 @/api/generateApi
