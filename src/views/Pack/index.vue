@@ -143,7 +143,7 @@
         </div>
         <!-- 配色方案 -->
         <div class="box-02" style="margin-top: 2vh;">
-          <p>选择你喜欢的配色方案</p>
+          <p>*选择你喜欢的配色方案</p>
           <div class="item-container">
             <div v-for="item in gridItems1" :key="item.name" class="grid-item" @click="handleClick(item.name, 1)"
               :class="{ selected: selectedName1 === item.name }">
@@ -154,7 +154,7 @@
           style="width: 100%;box-sizing: border-box;margin: 2vh 0 0 0;" placeholder="例：玫瑰金、鲜红等" />
         </div>
         <div class="box-02">
-          <p>风格设置</p>
+          <p>*风格设置</p>
           <div class="item-container">
             <div v-for="item in gridItems3" :key="item.name" class="grid-item" @click="handleClick(item.name, 3)"
               :class="{ selected: selectedName3 === item.name }">
@@ -217,14 +217,14 @@ const canNext = ref(false); //当前页面是否完成输入
 
 const handleStep = (mystep) => {
   // -------------强制填写逻辑（未完成
-  if( nowStep.value === 1 && (selectedName2.value != null)){
+  if( nowStep.value === 1 && (selectedName2.value != null || fileListbody.value.length != 0)){
     canNext.value = true;
   }
   if( nowStep.value === 2 ){
-    if(brandImg.value != null && brandName != null){
+    if(fileListbrand.value.length != 0 && brandName.value.trim() != ''){
       canNext.value = true;
       console.log(canNext.value);
-    }else if(brandImg.value === null && brandName === null){
+    }else if(fileListbrand.value.length === 0 && brandName.value.trim() === ''){
       canNext.value = true;
       console.log(canNext.value);
     }else{
@@ -256,7 +256,7 @@ const fileListbrand = ref([
   //   { url: 'https://cloud-image' },
 ]);
 
-let fileListbody = ref([
+const fileListbody = ref([
   // { url: selectedName2.value },
   // Uploader 根据文件后缀来判断是否为图片文件
   // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
@@ -422,16 +422,17 @@ const handlePreview = () => {
   packfd.append("logoRef", brandImg, Date.now() + ".jpg");  //logo
   packfd.append("packageRef", bodyImg, Date.now() + ".jpg");  //包装参考图
   packfd.append("text", brandName.value);
-  packfd.append("brand_scale", ListFontSize);
-  packfd.append("spacing", WordSpacing);
-  packfd.append("font_file", ListFont);
-  packfd.append("text_x_percent", FontPosX);
-  packfd.append("text_x_percent", FontPosX);
-  packfd.append("text_y_percent", FontPosY);
-  packfd.append("logo_x_percent", LOGOPosX);
-  packfd.append("logo_y_percent", LOGOPosY);
-  packfd.append("logo_scale", LogoSize);
-  postGenerateApi(packfd, { product: "logo" })
+  packfd.append("client", "cuz");
+  packfd.append("prompt", "AI_PACK");
+  packfd.append("brand_scale", ListFontSize.value);
+  packfd.append("spacing", WordSpacing.value);
+  packfd.append("text_x_percent", FontPosX.value);
+  packfd.append("text_y_percent", FontPosY.value);
+  packfd.append("logo_x_percent", LOGOPosX.value);
+  packfd.append("logo_y_percent", LOGOPosY.value);
+  packfd.append("logo_scale", LogoSize.value);
+  packfd.append("font_file", "汉仪雅酷黑75W.ttf .ttf");
+  postGenerateApi(packfd, { product: "pack_logo_brand_adjust" })
     .then((postres) => {
       console.log("posterupload res", postres);
 
@@ -513,7 +514,7 @@ const handleCreate = () => {
   packfd.append("steps", 20);
   packfd.append("deep", 14);
   packfd.append("denoise", 0.69);
-  // packfd.append("font_file", ListFont.value + ".ttf");
+  // packfd.append("font_file", "汉仪雅酷黑75W.ttf .ttf");
   // packfd.append("from_translate", "auto");
   // packfd.append("to_translate", "english");
   // packfd.append("spacing", "-500");
