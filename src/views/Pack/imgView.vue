@@ -15,7 +15,7 @@
       </div>
       <div class="down-space">
         <div class="down-title">
-          <p>作品1下载</p>
+          <p>作品下载</p>
           <img src="@/assets/images/down_logo.png" alt="" />
         </div>
         <div class="down-title" style="justify-content: space-between">
@@ -49,8 +49,8 @@ let imgurl1 = ref('')
 let imgurl2 = ref('')
 onMounted(() => {
   imgurl1.value = drawStore.packimgurl1
-  imgurl2.value = drawStore.packimgurl2
-  console.log("imgurl", drawStore.packimgurl1, drawStore.packimgurl2);
+  // imgurl2.value = drawStore.packimgurl2
+  console.log("imgurl", drawStore.packimgurl1);
 
 
 })
@@ -69,21 +69,21 @@ const saveAs = () => {
 
   showNotify({ type: 'success', message: '已保存图片1到本地' });
 }
-const saveAs2 = () => {
+// const saveAs2 = () => {
 
-  const link2 = document.createElement('a');
-  link2.href = imgurl2.value;
-  link2.download = 'packImg2.jpg'; // 下载的文件名
+//   const link2 = document.createElement('a');
+//   link2.href = imgurl2.value;
+//   link2.download = 'packImg2.jpg'; // 下载的文件名
 
-  // 将链接元素添加到页面中并触发点击
-  document.body.appendChild(link2);
-  link2.click();
+//   // 将链接元素添加到页面中并触发点击
+//   document.body.appendChild(link2);
+//   link2.click();
 
-  // 移除链接元素
-  document.body.removeChild(link2);
+//   // 移除链接元素
+//   document.body.removeChild(link2);
 
-  showNotify({ type: 'success', message: '已保存图片2到本地' });
-}
+//   showNotify({ type: 'success', message: '已保存图片2到本地' });
+// }
 </script>
 
 <style scoped>

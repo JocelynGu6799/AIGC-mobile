@@ -59,12 +59,12 @@
       <div class="box-03" style="border: 0px">
         <p>*LOGO贴图</p>
         <van-uploader class="van-uploader" v-model="fileListbrand" :after-read="afterReadbrand" reupload max-count="1"
-          :preview-size="[311, 100]" upload-text="支持PNG/JPG模式,最大不超过2M" />
+          :preview-size="[311, 100]" upload-text="支持PNG/JPG模式,最大不超过10M" />
       </div>
       <div class="box-03" style="border: 0px">
         <p>*添加产品主体照片</p>
         <van-uploader class="van-uploader" v-model="fileListbody" :after-read="afterReadbody" reupload max-count="1"
-          :preview-size="[311, 100]" upload-text="支持PNG/JPG模式,最大不超过2M" />
+          :preview-size="[311, 100]" upload-text="支持PNG/JPG模式,最大不超过10M" />
       </div>
       <div class="box-03">
         <p>*海报图比例</p>
@@ -93,6 +93,7 @@ import{ onMounted } from "vue";
 import { getViewApi } from "@/api/userApi";
 import { useDrawStore } from "@/stores/drawStore";
 import { showNotify } from "vant";
+import { showToast } from "vant";
 
 let drawStore=useDrawStore()
 onMounted(()=>{
@@ -111,11 +112,38 @@ let brandImg = ref('');
 
 let bodyImg = ref('');
 
+const canNext = ref(false); //当前页面是否完成输入
+
 const handleStep = (mystep) => {
+  // -------------强制填写逻辑（未完成
+  if( nowStep.value === 1 && (brandName.value !== ""  && postercontent.value  !== "")){
+    canNext.value = true;
+  }
+  if( nowStep.value === 2 && (selectedName2.value  !== "")){
+    canNext.value = true;
+  }
+  // if( nowStep.value === 3 && (bodyImg.value!=='' && !brandImg.value!=='')){
+  //   canNext.value = true;
+  // }
+
   // mystep的值为-1或1,对应改变nowStep的值
-  console.log("mystep", mystep);
-  nowStep.value += mystep;
+  if(mystep === 1){
+    if(canNext.value === true){
+      console.log("mystep", mystep);
+      nowStep.value += mystep;
+      canNext.value = false;
+    }else{
+      showToast('您还有内容未补充完整');
+    }
+  }else{
+    // 上一步
+    nowStep.value += mystep;
+    canNext.value = false;
+  }
+  console.log(canNext.value);
+  
 };
+
 const fileListbrand = ref([
   // Uploader 根据文件后缀来判断是否为图片文件
   // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
@@ -223,9 +251,8 @@ const handleInput = (event) => {
 // 点击生成与后端交互
 const handleCreate = () => {
   // 检查必传参数是否已传递
-  if (bodyImg.value==='' || !brandImg.value==='' || !brandName.value || !postercontent.value || !selectedName2.value) {
-    console.error("缺少必要参数，请确保所有必传参数都已传递。");
-    showNotify({ message: '请输入必选内容' });
+  if (bodyImg.value==='' || !brandImg.value==='' ) {
+    showToast('您还有内容未补充完整');
     return; 
   }
 
@@ -285,12 +312,16 @@ fd.append("seed", Math.floor(Math.random() * 1000) + 1);
                       // calledGetViewApi.value=false
 
                   clearInterval(intervalId);
+      showNotify({ type: "danger", message: "绘图失败,请重试" });
+
                   }
 
               }).catch((error) => {
                   console.error("获取绘图数据失败:", error);
                   loadingInstance.close()
                   clearInterval(intervalId);
+      showNotify({ type: "danger", message: "网络错误" });
+
                   // calledGetViewApi.value=false
 
                   // setTimeout(()=>{

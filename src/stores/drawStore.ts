@@ -7,7 +7,7 @@ export const useDrawStore = defineStore('draw2', () => {
     // const dataUrl = ref('')
     // const prompt_id = ref('')
     const packimgurl1 = ref('')
-    const packimgurl2 = ref('')
+    const packimguryulan = ref('')
     const logoimgurl1 = ref('')
     const logoimgurl2 = ref('')
     const posterimgurl = ref('')
@@ -19,5 +19,5 @@ export const useDrawStore = defineStore('draw2', () => {
     //   count.value++
     // }
   
-    return { packimgurl1,packimgurl2,logoimgurl1,logoimgurl2,posterimgurl}
+    return { packimgurl1,logoimgurl1,logoimgurl2,posterimgurl,packimguryulan}
   },{persist:true})

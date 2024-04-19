@@ -24,7 +24,7 @@
           <div class="box">
             <p>传入样图</p>
             <van-uploader v-model="fileListbrand" :after-read="afterRead" reupload max-count="1"
-              :preview-size="[311, 90]" upload-text="支持PNG/JPG模式,最大不超过2M" />
+              :preview-size="[311, 90]" upload-text="支持PNG/JPG模式,最大不超过10M" />
           </div>
 
           <div class="box" style="border: 0px">
@@ -37,7 +37,7 @@
             </div>
           </div>
           <div class="box-01" style="border: 0px">
-            <input v-model="myshape" type="text" class="custom-input" placeholder="自定义输入形状" />
+            <input v-model="myshape" type="text" class="custom-input" placeholder="自定义输入形状" @input="shaperest" />
           </div>
         </div>
       </div>
@@ -56,14 +56,14 @@
           </div>
         </div>
         <div class="box-03" style="border: 0px">
-          <input v-model="mystyle" type="text" class="custom-input" placeholder="自定义输入风格" />
+          <input v-model="mystyle" type="text" class="custom-input" placeholder="自定义输入风格" @input="stylerest" />
         </div>
       </div>
     </div>
     <div v-if="nowStep === 3">
       <div class="content-container">
         <div class="box-02">
-          <p>配色设置</p>
+          <p>配色设置(可多选)</p>
           <div class="item-container03">
             <div v-for="item in gridItems3" :key="item.name" class="grid-item" @click="handleClick1(item.name)"
               :class="{ selected: isSelected(item.name) }">
@@ -122,7 +122,12 @@ const productCopy = ref("");
 let brandImg = ref("");
 //添加主体图片url
 let bodyImg = ref("");
-
+const shaperest = () => {
+  selectedName1.value = ''
+}
+const stylerest = () => {
+  selectedName2.value = ''
+}
 const handleStep = (mystep) => {
   // mystep的值为-1或1,对应改变nowStep的值
   console.log("mystep", mystep);
@@ -327,12 +332,16 @@ const handleCreate = () => {
                 // calledGetViewApi.value = false
 
                 clearInterval(intervalId);
+                showNotify({ type: "danger", message: "绘图失败,请重试" });
+
               }
             })
             .catch((error) => {
               console.error("获取绘图数据失败:", error);
               loadingInstance.close();
               clearInterval(intervalId);
+              showNotify({ type: "danger", message: "网络错误" });
+
               // calledGetViewApi.value = false
 
               // setTimeout(()=>{
