@@ -90,7 +90,7 @@ margin: 80px 0 20px 0;
 
 .img-box {
 width: 100%;
-height: 394px;
+/* height: 394px; */
 position: relative;
 top:-50px;
 border: 1px solid #ccc;
@@ -98,6 +98,7 @@ border: 1px solid #ccc;
 
 .down-space {
 width: 80%;
+/* margin-top: 94px; */
 }
 .down-space p {
 font-size: 17px;

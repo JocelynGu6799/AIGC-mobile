@@ -53,11 +53,15 @@ const onSubmit = (values: any) => {
             console.log("loginres", loginres);
             if (loginres.statusCode === 200) {
                 userStore.isLogin = true
+                showNotify({ type: "success", message: "登录成功" });
+                router.push("/select")
+
+
             } else if (loginres.statusCode === 201) {
                 showNotify({ type: "danger", message: "用户名或密码错误" });
 
-            }else{
-            showNotify({ type: "danger", message: "数据库错误" });
+            } else {
+                showNotify({ type: "danger", message: "数据库错误" });
 
             }
 
@@ -72,7 +76,6 @@ const onSubmit = (values: any) => {
         })
 
 
-    router.push("/select")
 };
 </script>
 

@@ -373,7 +373,7 @@ const handleCreate = () => {
     .catch((error) => {
       showNotify({ type: "danger", message: "网络错误" });
       loadingInstance.close();
-      clearInterval(intervalId);
+      // clearInterval(intervalId);
       // calledGetViewApi.value = false;
       console.error("获取上传数据失败:", error);
     });

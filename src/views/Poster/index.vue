@@ -106,10 +106,10 @@ const brandName = ref("");
 const brandName2 = ref("");
 const postercontent = ref("");
 //品牌信息图片url
-let brandImg = ref(null);
+let brandImg = ref('');
 //添加主体图片url
 
-let bodyImg = ref(null);
+let bodyImg = ref('');
 
 const handleStep = (mystep) => {
   // mystep的值为-1或1,对应改变nowStep的值
@@ -178,14 +178,14 @@ const isSelected1 = (item) => {
 const gridItems2 = ref([
   { name: "9:16" },
 ]);
-const selectedName2 = ref(null);
+const selectedName2 = ref('');
 
 const gridItems3 = ref([
-  { name: "山水自然", prompt: "poster_test" },
-  { name: "晶石国风", prompt: "FINAL_POSTER_DEMO0002" },
-  { name: "纸雕风格", prompt: "FINAL_POSTER_DEMO0003" },
+  { name: "山水自然", prompt: "PosterShanShuiZiRan" },
+  { name: "晶石国风", prompt: "PosterJingShiGuoFeng" },
+  { name: "纸雕风格", prompt: "PosterZhiDiaoFengGe" },
 ]);
-const selectedName3 = ref(null);
+const selectedName3 = ref('');
 
 // 点击事件处理程序
 const handleClick = (name, gridNumber) => {
@@ -223,7 +223,7 @@ const handleInput = (event) => {
 // 点击生成与后端交互
 const handleCreate = () => {
   // 检查必传参数是否已传递
-  if (!bodyImg || !brandImg || !brandName.value || !postercontent.value || !selectedName2.value) {
+  if (bodyImg.value==='' || !brandImg.value==='' || !brandName.value || !postercontent.value || !selectedName2.value) {
     console.error("缺少必要参数，请确保所有必传参数都已传递。");
     showNotify({ message: '请输入必选内容' });
     return; 
@@ -240,6 +240,7 @@ fd.append("mainTitle", brandName.value);
 fd.append("posterContent", postercontent.value);
 fd.append("prompt", selectedName2.value);
 fd.append("client", "cuz");
+fd.append("seed", Math.floor(Math.random() * 1000) + 1);
 // getViewApi({prompt_id: "64e8f292-3db5-41cc-b9fa-b37a4e128450", client_id: "client_id_argv" })
 // .then((res)=>console.log(res))
   console.log("执行生成逻辑", bodyImg, brandImg, brandName.value, postercontent.value, selectedName2.value);

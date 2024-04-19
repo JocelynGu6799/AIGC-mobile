@@ -25,10 +25,9 @@
             <p>传入样图</p>
             <van-uploader v-model="fileListbrand" :after-read="afterRead" reupload max-count="1"
               :preview-size="[311, 90]" upload-text="支持PNG/JPG模式,最大不超过2M" />
-
           </div>
 
-          <div class="box" style="border: 0px;">
+          <div class="box" style="border: 0px">
             <p>形状设置</p>
             <div class="item-container">
               <div v-for="item in gridItems1" :key="item.name" class="grid-item" @click="handleClick(item.name, 1)"
@@ -37,7 +36,7 @@
               </div>
             </div>
           </div>
-          <div class="box-01" style="border: 0px;">
+          <div class="box-01" style="border: 0px">
             <input v-model="myshape" type="text" class="custom-input" placeholder="自定义输入形状" />
           </div>
         </div>
@@ -56,7 +55,7 @@
             </div>
           </div>
         </div>
-        <div class="box-03" style="border: 0px;">
+        <div class="box-03" style="border: 0px">
           <input v-model="mystyle" type="text" class="custom-input" placeholder="自定义输入风格" />
         </div>
       </div>
@@ -67,12 +66,12 @@
           <p>配色设置</p>
           <div class="item-container03">
             <div v-for="item in gridItems3" :key="item.name" class="grid-item" @click="handleClick1(item.name)"
-            :class="{ selected: isSelected(item.name) }">
-            {{ item.name }}
-          </div>
+              :class="{ selected: isSelected(item.name) }">
+              {{ item.name }}
+            </div>
           </div>
         </div>
-        <div class="box-03" style="border: 0px;">
+        <div class="box-03" style="border: 0px">
           <input v-model="mycolor" type="text" class="custom-input" placeholder="自定义输入配色" />
         </div>
       </div>
@@ -85,10 +84,8 @@
         </div>
 
         <div class="textarea-container">
-              <textarea v-model="postercontent" @input="handleInput" class="custom-input-plus"
-                placeholder="请输入文案内容"></textarea>
+          <textarea v-model="postercontent" class="custom-input-plus" placeholder="请输入文案内容"></textarea>
         </div>
-        
       </div>
     </div>
 
@@ -99,25 +96,26 @@
 </template>
 
 <script setup>
-import { ref ,watch } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { postGenerateApi } from "@/api/generateApi"
-import { getBlob } from "@/utils/getblob.js"
-import { ElLoading } from 'element-plus';
+import { postGenerateApi } from "@/api/generateApi";
+import { getBlob } from "@/utils/getblob.js";
+import { ElLoading } from "element-plus";
 import { onMounted } from "vue";
 import { getViewApi } from "@/api/userApi";
 import { useDrawStore } from "@/stores/drawStore";
 import { showNotify } from "vant";
 
-let drawStore = useDrawStore()
-
-const router = useRouter()
+let drawStore = useDrawStore();
+let postercontent = ref("");
+const router = useRouter();
 let nowStep = ref(1);
 // 使用 ref 创建一个响应式变量 inputValue
 const brandName = ref("");
 const mybody = ref("");
 const myshape = ref("");
 const mycolor = ref("");
+const mystyle = ref("");
 const productType = ref("");
 const productCopy = ref("");
 //品牌信息图片url
@@ -146,11 +144,9 @@ const afterRead = (file) => {
   // brandImg=file.objectUrl
   // console.log("品牌信息file", brandImg);
   var base64String = file.content;
-  bodyImg = getBlob(base64String)
+  bodyImg = getBlob(base64String);
 
   console.log("样图信息file", bodyImg);
-
-
 };
 //主体图片上传成功后
 
@@ -158,7 +154,6 @@ const afterRead = (file) => {
 //   // 此时可以自行将文件上传至服务器
 //   bodyImg=file.objectUrl
 //   console.log("主体图信息file", bodyImg);
-
 
 // };
 // -------------------------
@@ -170,7 +165,7 @@ const gridItems1 = ref([
   { name: "菱形" },
   { name: "不规则形状" },
 ]);
-const selectedName1 = ref(null);
+const selectedName1 = ref('');
 
 // 创建第二个网格数据
 const gridItems2 = ref([
@@ -187,7 +182,7 @@ const gridItems2 = ref([
   { name: "剪影" },
   { name: "强阴影" },
 ]);
-const selectedName2 = ref(null);
+const selectedName2 = ref('');
 
 const gridItems3 = ref([
   { name: "红色" },
@@ -233,7 +228,7 @@ const gridItems4 = ref([
   { name: "花" },
   { name: "月亮" },
 ]);
-const selectedName4 = ref(null);
+const selectedName4 = ref('');
 
 // 点击事件处理程序
 const handleClick = (name, gridNumber) => {
@@ -258,34 +253,47 @@ const handleInput = (event) => {
   // 截取前20个字符
   productCopy.value = event.target.value.slice(0, 20);
 };
-  let calledGetViewApi = ref(true);
+let calledGetViewApi = ref(true);
 
 // 点击生成与后端交互
 const handleCreate = () => {
-
-  if(brandName.value === null && selectedName1.value === null && selectedName2.value === null
-     && selectedName4.value === null){
-    showNotify({ type: 'danger', message: '请输入必选内容' });
+  // if(brandName.value === '' && selectedName1.value === '' && selectedName2.value === ''
+  //    && selectedName4.value === ''){
+  //   showNotify({ type: 'danger', message: '请输入必选内容' });
+  // }
+  let myweight = 0.6
+  //  不存在图片weight就为0
+  if (bodyImg.value === "") {
+    myweight = 0
   }
-
-  let logokeysarr = ref(brandName.value + ',' + selectedName1.value + ',' + selectedName2.value + ',' + selectedName3.value.join() + ',' + selectedName4.value)
-  const loadingInstance = ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
-  
+  // 如果有自定义颜色,添加到颜色数组
+  if (mycolor.value) {
+    selectedName3.value.push(mycolor.value);
+  }
+  // 自定义的形状和风格会覆盖选项的风格
+  let logokeysarr = ref(
+    brandName.value + "," + (myshape.value || selectedName1.value) + "," + (mystyle.value || selectedName2.value) + "," + selectedName3.value.join() + "," + postercontent.value);
+  const loadingInstance = ElLoading.service({
+    fullscreen: true,
+    text: "正在努力绘画中...",
+  });
+  console.log("logokeysarr.value", logokeysarr.value);
   var fd = new FormData();
-  fd.append("logoReference", bodyImg, Date.now() + ".jpg");
+  // 如果不存在图片就不添加
+  if (bodyImg.value !== "") {
+    fd.append("logoReference", bodyImg, Date.now() + ".jpg");
+  }
   fd.append("logoKeys", logokeysarr.value);
   fd.append("language", "chinese simplified");
-  fd.append("weight", "0.6");
+  fd.append("weight", myweight);
   fd.append("prompt", "Custom_Logo");
   fd.append("client", "cuz");
   // getViewApi({prompt_id: "64e8f292-3db5-41cc-b9fa-b37a4e128450", client_id: "client_id_argv" })
   // .then((res)=>console.log(res))
   console.log("执行生成逻辑", bodyImg, logokeysarr.value);
-  postGenerateApi(fd, { product: 'logo' })
+  postGenerateApi(fd, { product: "logo" })
     .then((postres) => {
-
       console.log("posterupload res", postres);
-
 
       const intervalId = setInterval(() => {
         if (calledGetViewApi.value) {
@@ -295,9 +303,7 @@ const handleCreate = () => {
             .then((response) => {
               console.log("view res", response);
               if (response.statusCode === 200) {
-
                 console.log("绘图成功", response);
-
 
                 const keys = Object.keys(response.data); // 获取对象的所有键
                 const firstKey = keys[0]; // 获取数组中的第一个键
@@ -305,61 +311,52 @@ const handleCreate = () => {
                 const imgurl1 = response.data[firstKey]; // 获取第一个键对应的值
                 const imgurl2 = response.data[secondKey]; // 获取第一个键对应的值
                 console.log("imgurl,", imgurl1, imgurl2);
-                drawStore.logoimgurl1 = imgurl1
-                drawStore.logoimgurl2 = imgurl2
+                drawStore.logoimgurl1 = imgurl1;
+                drawStore.logoimgurl2 = imgurl2;
 
-                loadingInstance.close()
-                calledGetViewApi.value = false
+                loadingInstance.close();
+                calledGetViewApi.value = false;
 
                 clearInterval(intervalId);
-                router.push("/logo/view")
-
-
-              }
-              else if (response.statusCode === 400) {
+                router.push("/logo/view");
+              } else if (response.statusCode === 400) {
                 console.log("等待绘图中...");
               } else {
                 console.log("绘图失败");
-                loadingInstance.close()
+                loadingInstance.close();
                 // calledGetViewApi.value = false
 
                 clearInterval(intervalId);
               }
-
-            }).catch((error) => {
+            })
+            .catch((error) => {
               console.error("获取绘图数据失败:", error);
-              loadingInstance.close()
+              loadingInstance.close();
               clearInterval(intervalId);
               // calledGetViewApi.value = false
 
               // setTimeout(()=>{
               //     router.push("/")
               // },1000)
-
             });
         }
-      }, 2000)
-
-
-
-    }).catch((error) => {
+      }, 2000);
+    })
+    .catch((error) => {
       console.error("获取上传数据失败:", error);
-    showNotify({ type: "danger", message: "网络错误" });
-    loadingInstance.close()
-
-
+      showNotify({ type: "danger", message: "网络错误" });
+      loadingInstance.close();
     });
-
 };
 watch(
   calledGetViewApi,
   (newValue, oldValue) => {
-    console.log("newValue",newValue);
+    console.log("newValue", newValue);
 
     // 立即执行，且当 `source` 改变时再次执行
   },
   { immediate: true }
-)
+);
 </script>
 
 <style lang="scss" scoped>
@@ -442,7 +439,7 @@ watch(
   display: flex;
   flex-direction: column;
   height: auto;
-  width: 388px;
+  width: 350px;
   margin: 3% 3% 0 3%;
   border-bottom: 1px solid white;
 }
@@ -458,7 +455,7 @@ watch(
   display: flex;
   flex-direction: column;
   height: auto;
-  width: 328px;
+  width: 360px;
   margin: 3% 3% 0 3%;
   border-bottom: 1px solid white;
 }
@@ -540,7 +537,6 @@ watch(
   width: 78%;
   margin-top: 30px;
   height: auto;
-
 }
 
 .box-02 p {
@@ -557,6 +553,7 @@ watch(
   grid-column-gap: 15px;
   /* 设置列间距 */
   margin-top: 18px;
+  padding: 0 18px;
 }
 
 .grid-item {
@@ -663,7 +660,6 @@ watch(
 .van-uploader {
   margin: 15px auto;
   margin-left: 17px;
-
 }
 
 .box-02 .van-uploader {
