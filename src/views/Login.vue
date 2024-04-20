@@ -7,9 +7,9 @@
         <van-form @submit="onSubmit">
             <p>登录SOLART</p>
             <van-cell-group inset>
-                <van-field v-model="loginInfo.client" name="用户名" label="用户名" placeholder="cuz"
+                <van-field v-model="loginInfo.client" name="用户名" label="用户名" placeholder="请输入用户名"
                     :rules="[{ required: true, message: '请填写用户名' }]" />
-                <van-field v-model="loginInfo.pw" type="password" name="密码" label="密码" placeholder="123456"
+                <van-field v-model="loginInfo.pw" type="password" name="密码" label="密码" placeholder="请输入密码"
                     :rules="[{ required: true, message: '请填写密码' }]" />
             </van-cell-group>
             <div style="margin: 16px;">
@@ -40,8 +40,8 @@ interface ILoginInfo {
     pw: string
 }
 const loginInfo = ref<ILoginInfo>({
-    client: '',
-    pw: ''
+    client: 'cuz',
+    pw: '123456'
 })
 // 点击提交,和后端交互修改islogin
 const onSubmit = (values: any) => {
@@ -131,7 +131,9 @@ const onSubmit = (values: any) => {
     text-align: center;
     /* line-height: ; */
     font-size: 8px;
-    position: fixed;
+    position: absolute;
+    /* bottom:30px; */
+    top: 790px;
     /* left: 50%; */
     /* margin-left: -68px; */
     z-index: 2;

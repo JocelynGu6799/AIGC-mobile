@@ -119,7 +119,7 @@
            >
             <!-- 弹窗内容，这里放置图片 -->
             <img :src="popupImageUrl" alt="Preview Image" />
-            <!-- <img src="/src/assets/images/Mizune_00001_饮料食品饮料塑料瓶1.png" alt="Preview Image" /> -->
+            <!-- <img src="./assets/Mizune_00001_饮料食品饮料塑料瓶1.png" alt="Preview Image" /> -->
           </van-popup>
         </div>
       </div>
@@ -209,11 +209,11 @@ let selectedName2 = ref(""); //---------------------------------包装类型（�
 const colorType = ref("");//--------------------------颜色
 // 创建包装类型
 const gridItems2 = ref([
-  { name: "红酒瓶", image: "/src/assets/images/Mizune_00001_饮料食品饮料塑料瓶1.png" },
-  { name: "手提纸盒", image: "/src/assets/images/Mizune_00005_饮料食品饮料塑料瓶.png" },
-  { name: "纸盒1", image: "/src/assets/images/Mizune_00009_手提袋.png" },
-  { name: "Item D", image: "/src/assets/images/Mizune_00018_长方形包装盒.png" },
-  { name: "Item E", image: "/src/assets/images/Mizune_00024_牛奶盒.png" },
+  { name: "红酒瓶", image: "./assets/Mizune_00001_饮料食品饮料塑料瓶1.png" },
+  { name: "手提纸盒", image: "./assets/Mizune_00005_饮料食品饮料塑料瓶.png" },
+  { name: "纸盒1", image: "./assets/Mizune_00009_手提袋.png" },
+  { name: "Item D", image: "./assets/Mizune_00018_长方形包装盒.png" },
+  { name: "Item E", image: "./assets/Mizune_00024_牛奶盒.png" },
 ]);
 
 const canNext = ref(false); //当前页面是否完成输入
@@ -590,7 +590,7 @@ const handleCreate = () => {
               console.error("获取绘图数据失败:", error);
               loadingInstance.close();
               clearInterval(intervalId);
-              showNotify({ type: "danger", message: "网络错误" });
+              // showNotify({ type: "danger", message: "网络错误" });
 
               // calledGetViewApi.value = false;
 

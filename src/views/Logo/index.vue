@@ -340,7 +340,7 @@ const handleCreate = () => {
               console.error("获取绘图数据失败:", error);
               loadingInstance.close();
               clearInterval(intervalId);
-              showNotify({ type: "danger", message: "网络错误" });
+              // showNotify({ type: "danger", message: "网络错误" });
 
               // calledGetViewApi.value = false
 

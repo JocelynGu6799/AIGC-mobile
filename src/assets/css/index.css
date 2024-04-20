@@ -5,6 +5,7 @@
   
   html,body,#app{
     height: 100%;
+    min-height: 840px;
     /* max-width: 750px; */
     margin: 0 auto;
     color: white;

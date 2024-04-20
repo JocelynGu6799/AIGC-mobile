@@ -19,7 +19,7 @@
           <img src="@/assets/images/down_logo.png" alt="" />
         </div>
         <div class="down-title" style="justify-content: space-between">
-          <button @click="saveAs()">下载（JPG）</button>
+          <button @click="saveAs()">下载（PNG）</button>
           <button>工程文件下载&nbsp(DXF)</button>
         </div>
       </div>
@@ -29,7 +29,7 @@
           <img src="@/assets/images/down_logo.png" alt="" />
         </div>
         <div class="down-title" style="justify-content: space-between">
-          <button @click="saveAs2()">下载（JPG）</button>
+          <button @click="saveAs2()">下载（PNG）</button>
           <button>工程文件下载&nbsp(DXF)</button>
         </div>
       </div> -->

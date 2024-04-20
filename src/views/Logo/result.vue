@@ -18,7 +18,7 @@
             <img src="@/assets/images/down_logo.png" alt="" />
           </div>
           <div class="down-title">
-            <button @click="saveAs()">下载（JPG）</button>
+            <button @click="saveAs()">下载（PNG）</button>
           </div>
         </div>
 
@@ -34,7 +34,7 @@
             <img src="@/assets/images/down_logo.png" alt="" />
           </div>
           <div class="down-title">
-            <button  @click="saveAs2()">下载（JPG）</button>
+            <button  @click="saveAs2()">下载（PNG）</button>
           </div>
         </div>
       </div>

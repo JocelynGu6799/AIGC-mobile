@@ -50,8 +50,9 @@ const handleCreate = () => {
     height: 42px;
     font-size: 18px;
     letter-spacing: 5px;
-    position: fixed;
-    bottom: 85px;
+    position: absolute;
+    /* bottom: 85px; */
+    top: 730px;
 
 
 }
@@ -61,7 +62,6 @@ const handleCreate = () => {
     background-color: #E3E3E3;
     left: 32px;
 
-    bottom: 85px;
 
 
 }
@@ -71,7 +71,7 @@ const handleCreate = () => {
     background-color: #92B0FF;
     color: white;
     right: 32px;
-    bottom: 85px;
+    /* bottom: 85px; */
 
 
 

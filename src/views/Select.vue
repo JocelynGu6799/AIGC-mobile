@@ -63,11 +63,12 @@ html{
     text-align: center;
     /* line-height: ; */
     font-size: 8px;
-    position: fixed;
-    /* left: 50%; */
+    position: absolute;
+    /* bottom:30px; */
+    top: 790px;
     /* margin-left: -68px; */
     z-index: 2;
-    bottom: 28px;
+    /* bottom: 28px; */
     letter-spacing: 2px;
     font-weight: 600;
 }

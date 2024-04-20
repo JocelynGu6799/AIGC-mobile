@@ -105,11 +105,13 @@ p{
     text-align: center;
     /* line-height: ; */
     font-size: 8px;
-    position: fixed;
+    position: absolute;
+    /* bottom:30px; */
+    top: 790px;
     /* left: 50%; */
     /* margin-left: -68px; */
     z-index: 10;
-    bottom:28px;
+    /* bottom:28px; */
     letter-spacing: 2px;
     font-weight: 600;
 }
