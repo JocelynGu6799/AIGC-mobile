@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="header">
     <van-nav-bar :title="mytitle" >
   <template #right v-if="ifhome">
     <van-icon name="wap-home-o" size="36" color="white" @click="gotoHome"/>
@@ -42,12 +42,18 @@ defineProps({
 
 <style scoped>
 .van-nav-bar{
-  /* position: absolute; */
+ 
     /* background-color: palevioletred; */
     width: 349px;
     margin: 0 auto;
     padding-top: 44px;
     border-bottom: 2px solid white;
+}
+.header{
+  position: sticky;
+  top: 0;
+  background-color: black;
+  z-index: 100;
 }
 
 </style>
