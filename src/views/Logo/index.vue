@@ -18,14 +18,9 @@
         </div>
         <div class="content-container">
           <div class="box">
-            <p>品牌（公司）名称</p>
-            <input v-model="brandName" type="text" class="custom-input" placeholder="请输入品牌（公司）名称" />
-          </div>
-          <div class="box">
             <p>传入样图</p>
             <van-uploader v-model="fileListbrand" :after-read="afterRead" reupload max-count="1"
-              :preview-size="[311, 90]" upload-text="支持PNG/JPG模式,最大不超过2M" />
-
+              :preview-size="[311, 180]" upload-text="支持PNG/JPG模式,最大不超过2M" />
           </div>
 
           <div class="box" style="border: 0px;">
@@ -263,7 +258,7 @@ const handleInput = (event) => {
 // 点击生成与后端交互
 const handleCreate = () => {
 
-  let logokeysarr = ref(brandName.value + ',' + selectedName1.value + ',' + selectedName2.value + ',' + selectedName3.value.join() + ',' + selectedName4.value)
+  let logokeysarr = ref(selectedName1.value + ',' + selectedName2.value + ',' + selectedName3.value.join() + ',' + selectedName4.value)
 
   if(brandName.value === null && selectedName1.value === null && selectedName2.value === null
      && selectedName4.value === null){
