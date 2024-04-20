@@ -67,7 +67,7 @@ const saveAs = () => {
   // 移除链接元素
   document.body.removeChild(link);
 
-  showNotify({ type: 'success', message: '已保存图片1到本地' });
+  showNotify({ type: 'success', message: '已保存图片到本地' });
 }
 // const saveAs2 = () => {
 

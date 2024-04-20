@@ -178,6 +178,12 @@ const afterReadbody = (file) => {
 
 
 };
+// const beforedeleltelogo=()=>{
+//   brandImg.value=''
+// }
+// const beforedeleltebody=()=>{
+//   bodyImg.value=''
+// }
 
 // 创建网格数据
 const gridItems1 = ref([

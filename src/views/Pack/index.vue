@@ -88,7 +88,7 @@
           <p>*品牌信息（LOGO）</p>
           <van-uploader v-model="fileListbrand" :before-read="beforeRead" :after-read="afterRead" reupload max-count="1"
             :preview-size="[311, 114]" upload-text="支持PNG/JPG模式,最大不超过10M"
-            style="border: 1px solid white; border-radius: 10px; margin: 3% 0;" />
+            style="border: 1px solid white; border-radius: 10px; margin: 3% 15px;" />
           <p style="font-size: 15px;">参数选择</p>
           <div class="parameter_selection">
             <div class="row">
@@ -116,7 +116,7 @@
           <van-button  @click="handlePreview" class="prebutton">预览</van-button>
           <!-- 弹窗组件 -->
           <van-popup v-model:show="popupVisible" position="center" :round="true"
-            :style="{ width: '320px', height: '320px' }">
+           >
             <!-- 弹窗内容，这里放置图片 -->
             <img :src="popupImageUrl" alt="Preview Image" />
             <!-- <img src="/src/assets/images/Mizune_00001_饮料食品饮料塑料瓶1.png" alt="Preview Image" /> -->
@@ -131,7 +131,7 @@
         <!-- 产品类型------------ -->
         <div class="box">
           <p>*产品类型</p>
-          <input v-model="productType" type="text" class="custom-input" placeholder="例：盒子" />
+          <input v-model="productType" type="text" class="custom-input" placeholder="例：购物袋、饼干盒" />
         </div>
         <!-- 产品描述 -->
         <div class="box">
