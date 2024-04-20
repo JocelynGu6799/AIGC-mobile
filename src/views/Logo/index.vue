@@ -263,12 +263,14 @@ const handleInput = (event) => {
 // 点击生成与后端交互
 const handleCreate = () => {
 
+  let logokeysarr = ref(brandName.value + ',' + selectedName1.value + ',' + selectedName2.value + ',' + selectedName3.value.join() + ',' + selectedName4.value)
+
   if(brandName.value === null && selectedName1.value === null && selectedName2.value === null
      && selectedName4.value === null){
-    showNotify({ type: 'danger', message: '请输入必选内容' });
+      console.log(logokeysarr);
+      showNotify({ type: 'danger', message: '请输入必选内容' });
   }
 
-  let logokeysarr = ref(brandName.value + ',' + selectedName1.value + ',' + selectedName2.value + ',' + selectedName3.value.join() + ',' + selectedName4.value)
   const loadingInstance = ElLoading.service({ fullscreen: true, text: "正在努力绘画中..." })
   
   var fd = new FormData();
