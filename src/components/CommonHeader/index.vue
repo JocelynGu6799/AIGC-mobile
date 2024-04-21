@@ -52,7 +52,7 @@ defineProps({
 .header{
   position: sticky;
   top: 0;
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   z-index: 100;
 }
 

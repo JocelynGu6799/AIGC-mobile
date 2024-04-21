@@ -17,14 +17,14 @@
           </div>
         </div>
         <div class="content-container">
-          <div class="box">
+          <!-- <div class="box">
             <p>品牌（公司）名称</p>
             <input v-model="brandName" type="text" class="custom-input" placeholder="请输入品牌（公司）名称" />
-          </div>
+          </div> -->
           <div class="box">
             <p>传入样图</p>
             <van-uploader v-model="fileListbrand" :after-read="afterRead" reupload max-count="1"
-              :preview-size="[311, 90]" upload-text="支持PNG/JPG模式,最大不超过10M" />
+              :preview-size="[311,180]" upload-text="支持PNG/JPG模式,最大不超过10M" />
           </div>
 
           <div class="box" style="border: 0px">
@@ -277,7 +277,7 @@ const handleCreate = () => {
   }
   // 自定义的形状和风格会覆盖选项的风格
   let logokeysarr = ref(
-    brandName.value + "," + (myshape.value || selectedName1.value) + "," + (mystyle.value || selectedName2.value) + "," + selectedName3.value.join() + "," + postercontent.value);
+    (myshape.value || selectedName1.value) + "," + (mystyle.value || selectedName2.value) + "," + selectedName3.value.join() + "," + postercontent.value);
   const loadingInstance = ElLoading.service({
     fullscreen: true,
     text: "正在努力绘画中...",

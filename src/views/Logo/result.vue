@@ -97,7 +97,7 @@ const saveAs2=()=>{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
   height: auto;
 }
 .img-display-container {
@@ -111,11 +111,11 @@ const saveAs2=()=>{
   border: 1px solid #ccc;
 }
 .down-space {
-  width: 80%;
-  margin-left: 170px;
+  width: 35%;
+  /* margin-left: 170px; */
 }
 .down-title {
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: row;
 }
@@ -127,7 +127,7 @@ const saveAs2=()=>{
 .down-space button {
   border: 1px solid #ccc;
   border-radius: 10px;
-  width: 45%;
+  width: 100%;
   background-color: transparent;
   font-size: 12px;
   margin: 15px 0;
