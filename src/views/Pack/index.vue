@@ -503,6 +503,18 @@ const handlePreview = () => {
         }
       }, 2000);
     })
+    .catch((error) => {
+              console.error("获取绘图数据失败:", error);
+              loadingInstance.close();
+              // clearInterval(intervalId);
+              calledGetViewApi.value = false;
+              showNotify({ type: "danger", message: "网络错误" });
+              
+
+              // setTimeout(()=>{
+              //     router.push("/")
+              // },1000)
+            });
 };
 
 //生成工作流
