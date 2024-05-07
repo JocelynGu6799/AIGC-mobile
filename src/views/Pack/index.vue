@@ -166,7 +166,7 @@
     </div>
 
     <!-- total-steps可以改成这个工作流程需要的步骤数量, -->
-    <PageChangeComp :nowStep="nowStep" :total-steps="3" @change-step="handleStep" @start-create="handleCreate">
+    <PageChangeComp :nowStep="nowStep" :total-steps="3" @change-step="handleStep" @start-create="handleCreate01">
     </PageChangeComp>
   </div>
 </template>
@@ -377,7 +377,7 @@ const handleClick = (name, gridNumber) => {
     selectedName3.value = name;
   }
   console.log("selectedName2.value", selectedName2.value);
-  console.log("fileListbody.value", fileListbody.value);
+  // console.log("fileListbody.value", fileListbody.value);
 };
 // ----------颜色预设/输入二选一只读取一个------------
 const handleInputColor = () => {
@@ -487,6 +487,13 @@ const handlePreview = () => {
 };
 
 //生成工作流
+const handleCreate01 = () => {
+  if(canNext.value === true){
+    handleCreate();
+  }else{
+    showToast('您还有内容未补充完整');
+  }
+}
 const handleCreate = () => {
   const loadingInstance = ElLoading.service({
     fullscreen: true,
